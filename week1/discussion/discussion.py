@@ -1,4 +1,3 @@
-#test
 """
 This just lets you type in a string and then prints it out in a diagonal
 line. If one of the characters is "W" then there will be one additional

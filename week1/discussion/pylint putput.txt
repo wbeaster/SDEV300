@@ -1,0 +1,36 @@
+(base) will@Williams-MacBook-Pro discussion % pylint discussion.py
+************* Module discussion
+discussion.py:10:0: C0304: Final newline missing (missing-final-newline)
+discussion.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+discussion.py:4:0: C0103: Constant name "space" doesn't conform to UPPER_CASE naming style (invalid-name)
+
+-------------------------------------------------------------------
+Your code has been rated at 5.71/10 (previous run: 10.00/10, -4.29)
+
+
+
+(base) will@Williams-MacBook-Pro discussion % pylint discussion.py
+************* Module discussion
+discussion.py:9:0: C0103: Constant name "space" doesn't conform to UPPER_CASE naming style (invalid-name)
+
+-------------------------------------------------------------------
+Your code has been rated at 8.57/10 (previous run: 10.00/10, -1.43)
+
+
+
+(base) will@Williams-MacBook-Pro discussion % pylint discussion.py
+************* Module discussion
+discussion.py:18:0: C0304: Final newline missing (missing-final-newline)
+discussion.py:7:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+-------------------------------------------------------------------
+Your code has been rated at 7.78/10 (previous run: 10.00/10, -2.22)
+
+
+
+(base) will@Williams-MacBook-Pro discussion % pylint discussion.py
+
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+
+(base) will@Williams-MacBook-Pro discussion % 

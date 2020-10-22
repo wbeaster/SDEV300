@@ -41,10 +41,10 @@ def main():
     lastName = input("Last name: ")
     queryContinue()
 
-    while ((age < 0 or age > OLDEST_AGE) and
-            not isinstance(age, int)):
+    # and not isinstance(age, int)):
+    while (age < 0 or age > OLDEST_AGE):
         print(f"Age (0 - {OLDEST_AGE}):", end=" ")
-        age = input()
+        age = int(input())
     queryContinue()
 
     citizen = input("Are you a US citizen (y/n): ")
@@ -57,16 +57,17 @@ def main():
     while(not (int(LEAST_ZIP) < int(zipcode) < int(GREATEST_ZIP))):
         zipcode = input("Zipcode: ")
 
-    print("Thank yo uregistering to vote. Here is the information ",
+    print("Thank you for registering to vote. Here is the information",
         "received:")
     print(f"Name: {firstName} {lastName}")
     print(f"Age: {age}")
     print(f"U.S. citizen: {citizen}")
     print(f"State:  {state}")
     print(f"Zipcode:  {zipcode}")
-    print("Thanks for trying theVoter Registration Application. Your voter ",
+    print("Thanks for trying theVoter Registration Application. Your voter",
         "registration card should be shipped within 3 weeks.")
 
+main()
 
 
 

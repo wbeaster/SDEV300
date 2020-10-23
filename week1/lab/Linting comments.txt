@@ -1,0 +1,9 @@
+On the first run of the linter my score was pretty low. The overhwelming majority of the hits were on trailing whitespace and not lining up my mult-line strings and arrays properly. I need to figure out how to make the linter work in VSCode so these get caught as I go and so I do not repeat the same errors as I write code.
+
+The linter does not like my excess parentheses. Perhaps it is my curly brace background, but I like removing any doubt what the order of operations are. The less I have to think about the order of operations the more I can focus on the real problems. Nonethless, excess/redundant/extraneous parentheses have been removed.
+
+My next big issue is snake_case. I am more of a camel case person. I will endeavor to be more Pythonic.
+
+One thing the linter recommended that I did like was showing me that I could use "not in" as opposed to "not <variable> in <array>" That made my code slightly more readable.
+
+The linter recommends sys.exit(). This compelled me to import sys and make the adjustment to make the recommendation go away.

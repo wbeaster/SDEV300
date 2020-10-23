@@ -3,4 +3,5 @@ examples
 .vscode
 *.ods
 *.ods#
+*.ods*
 .pdf

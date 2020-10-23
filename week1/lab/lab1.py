@@ -1,5 +1,8 @@
-
-
+"""    
+This application produces a voter registration application asking 
+the user a few simple questions followed by a confirmation of 
+registration, provided the user is eligible.
+"""
 
 #according to wikipedia, the oldest living Ameircan is 115
 #I add one year because 115.1 is > 115 but is still valid.
@@ -12,22 +15,22 @@ STATE_CODES = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC",
 GREATEST_ZIP = "99950"
 LEAST_ZIP = "000501"
 
+YES = ["Y", "YES"]
+
 def queryContinue():
     """
     DRY for asking whether the user wants to continue
     Since we ask after every question, this should be a function
+    Normalizes the input and checks if in YES
     """
-    print("Continue? (y/n): ")
-    proceed = input()
+    proceed = input("Continue? (y/n): ")
     
-    if (proceed != 'y'):
+    if (not proceed.upper() in YES):
         exit(0)
 
 def main():
     """
-    This application produces a voter registration application asking 
-    the user a few simple questions followed by a confirmation of 
-    registration, provided the user is eligible.
+    main loop for voting application
     """
 
     #initialize variables here
@@ -80,13 +83,10 @@ def main():
             if (int(LEAST_ZIP) <= int(zipcode) <= int(GREATEST_ZIP)):
                 validZip = True
     
-#    while(not (int(LEAST_ZIP) <= int(zipcode) <= int(GREATEST_ZIP))):
-#        zipcode = input("Zipcode: ")
-
     print("Thank you for registering to vote. Here is the information",
         "received:")
     print(f"Name: {firstName} {lastName}")
-    print(f"Age: {age}")
+    print(f"Age: {int(age)}")
     print(f"U.S. citizen: {citizen}")
     print(f"State:  {state}")
     print(f"Zipcode:  {zipcode}")

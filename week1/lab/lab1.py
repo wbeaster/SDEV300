@@ -1,7 +1,7 @@
 
 
 
-#according to wikipedia, this is the age of the oldest living Ameircan
+#according to wikipedia, the oldest living Ameircan is 115
 #I add one year because 115.1 is > 115 but is still valid.
 OLDEST_AGE = 116
 STATE_CODES = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", 
@@ -25,13 +25,17 @@ def queryContinue():
 
 def main():
     """
-    Talk about it here
+    This application produces a voter registration application asking 
+    the user a few simple questions followed by a confirmation of 
+    registration, provided the user is eligible.
     """
 
     #initialize variables here
-    firstName = ""
-    lastName = ""
-    age = -1
+    #this is done to default the variables to known value and slightly
+    #reduce the liklihood of uncompensated data entry
+    firstName = "1"
+    lastName = "1"
+    age = OLDEST_AGE + 1
     citizen = ""
     state = ""
     zipcode = -1
@@ -40,16 +44,17 @@ def main():
     print("Welcome to the Python Voter Registration Application.")
     queryContinue()
 
-    firstName = input("First name: ")
+    while (not firstName.isalpha()):
+        firstName = input("First name (a-z, A-Z): ")
     queryContinue()
 
-    lastName = input("Last name: ")
+    while (not lastName.isalpha()):
+        lastName = input("Last name (a-z, A-Z): ")
     queryContinue()
 
-    # and not isinstance(age, int)):
     while (age < 0 or age > OLDEST_AGE):
         print(f"Age (18 - {OLDEST_AGE}):", end=" ")
-        age = int(input())
+        age = float(input())
     if (age < 18):
         print("You are too young to vote. Exiting program.")
         exit(0)
@@ -57,17 +62,26 @@ def main():
 
     citizen = input("Are you a US citizen (y/n): ")
     if (citizen != 'y'):
+        print("You are not a U.S. citizen and cannot vote. Exiting program.")
         exit(0)
     #TODO: make a variable yes = ['y', 'Y', 'yes', 'YES"] and test for
     #in that set to continue
     queryContinue()
 
     while (not (state in STATE_CODES)):
-        state = input("Type the two letter code for you state of residence: ")
+        state = str.upper(input("Type the two letter code for you state of" +
+            " residence: "))
     queryContinue()
 
-    while(not (int(LEAST_ZIP) < int(zipcode) < int(GREATEST_ZIP))):
+    validZip = False
+    while (not validZip):
         zipcode = input("Zipcode: ")
+        if (zipcode.isdigit()):
+            if (int(LEAST_ZIP) <= int(zipcode) <= int(GREATEST_ZIP)):
+                validZip = True
+    
+#    while(not (int(LEAST_ZIP) <= int(zipcode) <= int(GREATEST_ZIP))):
+#        zipcode = input("Zipcode: ")
 
     print("Thank you for registering to vote. Here is the information",
         "received:")

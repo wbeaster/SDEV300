@@ -4,6 +4,8 @@ the user a few simple questions followed by a confirmation of
 registration, provided the user is eligible.
 """
 
+import sys
+
 #according to wikipedia, the oldest living Ameircan is 115
 #I add one year because 115.1 is > 115 but is still valid.
 OLDEST_AGE = 116
@@ -25,8 +27,8 @@ def query_continue():
     Normalizes the input and checks if in YES
     """
     proceed = input("Continue? (y/n): ")
-    if not proceed.upper() in YES:
-        exit(0)
+    if proceed.upper() not in YES:
+        sys.exit(0)
 
 def main():
     """
@@ -60,15 +62,14 @@ def main():
         age = float(input())
     if age < 18:
         print("You are too young to vote. Exiting program.")
-        exit(0)
+        sys.exit(0)
     query_continue()
 
     citizen = input("Are you a US citizen (y/n): ")
-    if citizen != 'y':
+    if citizen.upper() not in YES:
         print("You are not a U.S. citizen and cannot vote. Exiting program.")
-        exit(0)
-    #TODO: make a variable yes = ['y', 'Y', 'yes', 'YES"] and test for
-    #in that set to continue
+        sys.exit(0)
+
     query_continue()
 
     while state not in STATE_CODES:
@@ -82,8 +83,8 @@ def main():
         if zipcode.isdigit():
             if int(LEAST_ZIP) <= int(zipcode) <= int(GREATEST_ZIP):
                 valid_zip = True
-        print("Thank you for registering to vote. Here is the information",
-              "received:")
+    print("Thank you for registering to vote. Here is the information",
+          "received:")
     print(f"Name: {first_name} {last_name}")
     print(f"Age: {int(age)}")
     print(f"U.S. citizen: {citizen}")

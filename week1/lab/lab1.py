@@ -69,7 +69,6 @@ def main():
     if citizen.upper() not in YES:
         print("You are not a U.S. citizen and cannot vote. Exiting program.")
         sys.exit(0)
-
     query_continue()
 
     while state not in STATE_CODES:

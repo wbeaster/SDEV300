@@ -8,10 +8,11 @@ b.Calculate and Format a Percentage
 c.How many days from today until
 July 4, 2025?
 d.Use the Law of Cosines to calculate the leg of a triangle.
-e.Calculate the volume of a Right Circular Cylinder 
+e.Calculate the volume of a Right Circular Cylinder
 f.Exit program
 """
 
+from decimal import Decimal
 import secrets
 import string
 import sys
@@ -42,8 +43,31 @@ def get_choice_main_menu():
     """
     choice = None
     while choice not in MAIN_MENU_CHOICES:
-        choice = ("Choice (a - f): ")
+        choice = input("Choice (a - f): ")
     return choice
+
+def dispatch(choice):
+    """
+    Function is passed a valid choice and then call the appropriate
+    function
+    """
+    if choice == 'a':
+        password_args = generate_secure_password_menu()
+        password = generate_secure_password(password_args)
+        print(f'Your password is: {password}')
+    elif choice == 'b':
+        percentage_args = calculate_and_format_percentage_menu()
+        percentage = calculate_and_format_percentage(percentage_args)
+        print(f'Your percentge is: {percentage}')
+    elif choice == 'c':
+        days_until_20250704()
+    elif choice == 'd':
+        cosine_leg()
+    elif choice == 'e':
+        right_circular_cylindar_colume()
+    elif choice == 'f':
+        print("Thank you for using this application")
+        sys.exit()
 
 def generate_secure_password_menu():
     """
@@ -55,20 +79,21 @@ def generate_secure_password_menu():
     use_lower_case = None
     use_numbers = None
     use_specials = None
-    
+
     while not length:
         length = input('Password length (must be positive integer): ')
         if not length.isdigit():
             length = None
         elif int(length) < 1:
             length = None
-    
+    length = int(length)
+
     while not use_lower_case:
         use_lower_case = input('Use lower case letters? (y/n) ').upper()
-        
+
         if use_lower_case not in YES and use_lower_case not in NO:
             use_lower_case = None
-    
+
     if use_lower_case in YES:
         use_lower_case = True
     else:
@@ -76,7 +101,7 @@ def generate_secure_password_menu():
 
     while not use_upper_case:
         use_upper_case = input('Use upper case letters? (y/n) ').upper()
-        
+
         if use_upper_case not in YES and use_upper_case not in NO:
             use_upper_case = None
 
@@ -85,10 +110,10 @@ def generate_secure_password_menu():
     else:
         use_upper_case = False
 
-
+    #BUG: entering 'y' resolves to False
     while not use_numbers:
         use_numbers = input('Use numbers? (y/n) ')
-        
+
         if use_numbers.upper() not in YES and use_numbers.upper() not in NO:
             use_numbers = None
 
@@ -97,9 +122,10 @@ def generate_secure_password_menu():
     else:
         use_numbers = False
 
+    #BUG: entering 'y' resolves to False
     while not use_specials:
         use_specials = input('Use specials? (y/n) ')
-        
+
         if use_specials.upper() not in YES and use_specials.upper() not in NO:
             use_specials = None
 
@@ -114,7 +140,7 @@ def generate_secure_password_menu():
 
 def generate_secure_password(args):
     """This function generates a password based on the parameters"""
-    
+
     #first, unpack the tuple
     length, use_lower_case, use_upper_case, use_numbers, use_specials = args
 
@@ -136,13 +162,62 @@ def generate_secure_password(args):
 
     return ''.join(secrets.choice(alphabet) for i in range(length))
 
-def calculate_and_format_percentage():
+def calculate_and_format_percentage_menu():
     """
-    Asks the user for: numerator, denominator, and number of decimal 
-    points and then outputs the properly formatted answer
+    Allows the user to input their numerator, denominator, and how many
+    deimals points to display
     """
+    numerator = None
+    denominator = None
+    decimals = None
 
-    return
+    print("Welcome to the Calculate and Format percetnage module.")
+    print("You will enter a numerator, denominator, and how many decimals")
+    print("you would like to display")
+    print("The program will then calculate and display your number")
+    print("If needed the program will round your number to the requested")
+    print("decimal place.")
+
+    while not numerator:
+        numerator = input("Numerator (most be a number): ")
+        if not numerator.isdecimal():
+            numerator = None
+    numerator = Decimal(numerator)
+
+    while not denominator:
+        denominator = input("Denominator (most be a non-zero number): ")
+        if not denominator.isdecimal():
+            denominator = None
+        elif denominator == 0:
+            denominator = None
+    denominator = Decimal(denominator)
+
+    while not decimals:
+        decimals = input("Number of decimals to display: ")
+        if not decimals.isdigit():
+            decimals = None
+        elif int(decimals) < 0:
+            decimals = None
+    decimals = int(decimals)
+
+    return numerator, denominator, decimals
+
+def calculate_and_format_percentage(args):
+    """
+    Calculates and formats a percentage based on the parameters passed
+    Returns a print ready string
+    """
+    numerator, denominator, decimals = args
+
+    #print(f"Debug data {number}")
+    #took a lot of teeth gnashing but the below link showed me the best
+    #way to deal with any Python float/rounding issues
+    #note that Decimal is imported above
+    #https://www.programiz.com/python-programming/methods/built-in/round
+    number = Decimal(numerator/denominator)
+    number = str(round(number * 100, decimals)) + '%'
+
+    return number
 
 def days_until_20250704():
     """Displays the number of days from today until 4 Jul, 2025"""
@@ -162,37 +237,16 @@ def right_circular_cylindar_colume():
     """
     return
 
-def dispatch(choice):
-    """
-    Function is passed a valid choice and then call the appropriate 
-    function
-    """
-    if (choice == 'a'):
-        password_args = generate_secure_password_menu()
-        password = generate_secure_password(password_args)
-        print('Your password is: ' + password)
-    elif (choice == 'b'):
-        calculate_and_format_percentage()
-    elif (choice == 'c'):
-        days_until_20250704()
-    elif (choice == 'd'):
-        cosine_leg()
-    elif (choice == 'e'):
-        right_circular_cylindar_colume()
-    elif (choice == 'f'):
-        print("Thank you for using this application")
-        sys.exit()
+
 
 
 
 
 def main():
     """This is the main loop for the application"""
-    #display banner
-    #show menu
-    #solicit choice
+    display_banner()
+    display_main_menu()
     choice = get_choice_main_menu()
-    #dispatch choice
     dispatch(choice)
 
 

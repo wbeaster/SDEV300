@@ -14,6 +14,7 @@ f.Exit program
 
 from decimal import Decimal
 from datetime import date
+from math import cos, degrees, sqrt
 import secrets
 import string
 import sys
@@ -60,12 +61,15 @@ def dispatch(choice):
         percentage = calculate_and_format_percentage(percentage_args)
         print(f'Your percentge is: {percentage}')
     elif choice == 'c':
+        #TODO: Seperate the view from the model or something
         days = days_until_20250704()
         print(f'Days until July 4, 2025: {days}')
     elif choice == 'd':
-        cosine_leg()
+        cosine_leg_args = cosine_leg_menu()
+        leg = cosine_leg(cosine_leg_args)
+        print(f'The lenght of length C is: {leg}')
     elif choice == 'e':
-        right_circular_cylindar_colume()
+        right_circular_cylindar_column()
     elif choice == 'f':
         print("Thank you for using this application")
         sys.exit()
@@ -231,14 +235,71 @@ def days_until_20250704():
     today = date.today()
     return (target_day - today).days
 
-def cosine_leg():
+def cosine_leg_menu():
     """
     Asks the user for opposite angle, hypotnuse, and leg
     Then calculates the length of the missing triangle piece
     """
-    return
 
-def right_circular_cylindar_colume():
+    #Credit to KhanAcademy for answering a Pythagorean Theorem vs
+    #Law of cosines question I had
+    #https://youtu.be/ZElOxG7_m3c
+
+    #TODO: Add the law of cosines to the comments
+    opposite_angle = None
+    side_a = None
+    side_b = None
+
+    #TODO: Am I consistent in my use of colons on menu items?
+    while not opposite_angle:
+        opposite_angle = input("Opposite angle in degrees (must be a positive number < 180): ")
+        if not opposite_angle.isdecimal():
+            opposite_angle = None
+        elif not Decimal(opposite_angle) > 0 and not Decimal(opposite_angle) < 180:
+            opposite_angle = None
+    opposite_angle = Decimal(opposite_angle)
+
+    while not side_a:
+        side_a = input("Side A (must be a positive number): ")
+        if not side_a.isdecimal():
+            side_a = None
+        elif not Decimal(side_a) > 0:
+            side_a = None
+    side_a = Decimal(side_a)
+
+    while not side_b:
+        side_b = input("Side B (must be a positive number): ")
+        if not side_b.isdecimal():
+            side_b = None
+        if not Decimal(side_b) > 0:
+            side_b = None
+    side_b = Decimal(side_b)
+
+    return side_a, side_b, opposite_angle
+
+def cosine_leg(args):
+    """
+    Calculates a cosine leg based on the inputs
+    Inputs are assumed to be valid Decimals
+    Returns an unrounded Decimal
+    """
+
+    side_a, side_b, opposite_angle = args
+
+    cos_deg = Decimal(cos(opposite_angle))
+
+    #TODO: Is side_c a Decimal?
+    #TODO: Watch a video on properly dealing with Python Decimal
+    #I'm not sure where the conversions are, what's overloaded, etc.
+    side_c2 = (side_a ** 2) + (side_b ** 2) - (2 * side_a * side_b * cos_deg)
+    side_c = side_c2.sqrt()
+
+    return side_c
+
+    
+
+
+def right_circular_cylindar_column():
     """
     Asks the user for cylinder radiu and cylinder height
     Calculates the volume base on (π*r^2) × Height

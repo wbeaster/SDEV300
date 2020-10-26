@@ -13,6 +13,7 @@ f.Exit program
 """
 
 from decimal import Decimal
+from datetime import date
 import secrets
 import string
 import sys
@@ -28,13 +29,12 @@ def display_banner():
 
 def display_main_menu():
     """Dispalys the main menu"""
-    print('a.Generate Secure Password')
-    print('b.Calculate and Format a Percentage')
-    print('c.How many days from today until')
-    print('July 4, 2025?')
-    print('d.Use the Law of Cosines to calculate the leg of a triangle.')
-    print('e.Calculate the volume of a Right Circular Cylinder')
-    print('f.Exit program')
+    print('a. Generate Secure Password')
+    print('b. Calculate and Format a Percentage')
+    print('c. How many days from today until July 4, 2025?')
+    print('d. Use the Law of Cosines to calculate the leg of a triangle.')
+    print('e. Calculate the volume of a Right Circular Cylinder')
+    print('f. Exit program')
 
 def get_choice_main_menu():
     """
@@ -60,7 +60,8 @@ def dispatch(choice):
         percentage = calculate_and_format_percentage(percentage_args)
         print(f'Your percentge is: {percentage}')
     elif choice == 'c':
-        days_until_20250704()
+        days = days_until_20250704()
+        print(f'Days until July 4, 2025: {days}')
     elif choice == 'd':
         cosine_leg()
     elif choice == 'e':
@@ -221,7 +222,14 @@ def calculate_and_format_percentage(args):
 
 def days_until_20250704():
     """Displays the number of days from today until 4 Jul, 2025"""
-    return
+    """Assumes local timezone"""
+    
+    #since the specificaion has the date hard coded no, effort has been
+    #made to generalizethis function in the name of foregoing premature
+    #optimization.
+    target_day = date(2025, 7, 4)
+    today = date.today()
+    return (target_day - today).days
 
 def cosine_leg():
     """

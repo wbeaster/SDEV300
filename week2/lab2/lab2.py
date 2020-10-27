@@ -14,7 +14,10 @@ f.Exit program
 
 from decimal import Decimal
 from datetime import date
-from math import cos, degrees, sqrt
+#I wish I understood why pylint has an issue with pi
+#Workaround is to import math
+#from math import cos, pi, sqrt
+import math
 import secrets
 import string
 import sys
@@ -67,9 +70,12 @@ def dispatch(choice):
     elif choice == 'd':
         cosine_leg_args = cosine_leg_menu()
         leg = cosine_leg(cosine_leg_args)
-        print(f'The lenght of length C is: {leg}')
+        #TODO: Round to thousandths place
+        print(f'The length of leg C is: {leg}')
     elif choice == 'e':
-        right_circular_cylindar_column()
+        cylinder_args = right_circular_cylindar_column_menu()
+        cylinder_volume = right_circular_cylindar_column(cylinder_args)
+        print(f'The cyclinder\'s volume is: {cylinder_volume}')
     elif choice == 'f':
         print("Thank you for using this application")
         sys.exit()
@@ -286,30 +292,49 @@ def cosine_leg(args):
 
     side_a, side_b, opposite_angle = args
 
-    cos_deg = Decimal(cos(opposite_angle))
+    cos_deg = Decimal(math.cos(opposite_angle))
 
-    #TODO: Is side_c a Decimal?
     #TODO: Watch a video on properly dealing with Python Decimal
     #I'm not sure where the conversions are, what's overloaded, etc.
     side_c2 = (side_a ** 2) + (side_b ** 2) - (2 * side_a * side_b * cos_deg)
     side_c = side_c2.sqrt()
 
     return side_c
-
     
-
-
-def right_circular_cylindar_column():
+def right_circular_cylindar_column_menu():
     """
-    Asks the user for cylinder radiu and cylinder height
-    Calculates the volume base on (π*r^2) × Height
+    Asks the user for cylinder radius and cylinder height
     """
-    return
+    radius = None
+    height = None
 
+    while not radius:
+        radius = input("Radius (must be a positive number: ")
+        if not radius.isdecimal():
+            radius = None
+        elif not Decimal(radius) > 0:
+            radius = None
+    radius = Decimal(radius)
 
+    while not height:
+        height = input("Height (must be a positive number): ")
+        if not height.isdecimal():
+            height = None
+        elif not Decimal(height) > 0:
+            height = None
+    height = Decimal(height)
 
+    return radius, height
 
-
+def right_circular_cylindar_column(args):
+    """
+    Calculates the volume of a right cylinder based on (π*r^2) × height
+    Expects radius and height as Decimals
+    Returns a Decimal of the volume
+    """
+    radius, height = args
+    
+    return Decimal((Decimal(math.pi) * radius ** 2) * height)
 
 def main():
     """This is the main loop for the application"""

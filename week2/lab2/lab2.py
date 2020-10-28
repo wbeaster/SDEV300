@@ -64,7 +64,6 @@ def dispatch(choice):
         percentage = calculate_and_format_percentage(percentage_args)
         print(f'Your percentge is: {percentage}')
     elif choice == 'c':
-        #TODO: Seperate the view from the model or something
         days = days_until_20250704()
         print(f'Days until July 4, 2025: {days}')
     elif choice == 'd':
@@ -99,53 +98,54 @@ def generate_secure_password_menu():
             length = None
     length = int(length)
 
-    while not use_lower_case:
-        use_lower_case = input('Use lower case letters? (y/n) ').upper()
+    while not (use_lower_case or use_upper_case or use_numbers or use_specials):
+        while not use_lower_case:
+            use_lower_case = input('Use lower case letters? (y/n) ').upper()
 
-        if use_lower_case not in YES and use_lower_case not in NO:
-            use_lower_case = None
+            if use_lower_case not in YES and use_lower_case not in NO:
+                use_lower_case = None
 
-    if use_lower_case in YES:
-        use_lower_case = True
-    else:
-        use_lower_case = False
+        if use_lower_case in YES:
+            use_lower_case = True
+        else:
+            use_lower_case = False
 
-    while not use_upper_case:
-        use_upper_case = input('Use upper case letters? (y/n) ').upper()
+        while not use_upper_case:
+            use_upper_case = input('Use upper case letters? (y/n) ').upper()
 
-        if use_upper_case not in YES and use_upper_case not in NO:
-            use_upper_case = None
+            if use_upper_case not in YES and use_upper_case not in NO:
+                use_upper_case = None
 
-    if use_upper_case in YES:
-        use_upper_case = True
-    else:
-        use_upper_case = False
+        if use_upper_case in YES:
+            use_upper_case = True
+        else:
+            use_upper_case = False
 
-    #BUG: entering 'y' resolves to False
-    while not use_numbers:
-        use_numbers = input('Use numbers? (y/n) ')
+        while not use_numbers:
+            use_numbers = input('Use numbers? (y/n) ').upper()
 
-        if use_numbers.upper() not in YES and use_numbers.upper() not in NO:
-            use_numbers = None
+            if use_numbers not in YES and use_numbers not in NO:
+                use_numbers = None
 
-    if use_numbers in YES:
-        use_numbers = True
-    else:
-        use_numbers = False
+        if use_numbers in YES:
+            use_numbers = True
+        else:
+            use_numbers = False
 
-    #BUG: entering 'y' resolves to False
-    while not use_specials:
-        use_specials = input('Use specials? (y/n) ')
+        while not use_specials:
+            use_specials = input('Use specials? (y/n) ').upper()
 
-        if use_specials.upper() not in YES and use_specials.upper() not in NO:
-            use_specials = None
+            if use_specials not in YES and use_specials not in NO:
+                use_specials = None
 
-    if use_specials in YES:
-        use_specials = True
-    else:
-        use_specials = False
+        if use_specials in YES:
+            use_specials = True
+        else:
+            use_specials = False
 
-    #TODO: What is the user select a length, but no upper/lower/digits/specials
+        if not (use_lower_case or use_upper_case or use_numbers or use_specials):
+            print('You must select at least one complexity (lower case, upper case, numbers, ' +
+                  'specials characters).')
 
     return length, use_lower_case, use_upper_case, use_numbers, use_specials
 
@@ -285,7 +285,9 @@ def cosine_leg_menu():
 
 def cosine_leg(args):
     """
-    Calculates a cosine leg based on the inputs
+    Calculates a cosine leg using the Law of Cosines based on the inputs
+    Law of Cosines: c^2 = a^2 + b^2 - 2ab cos(C) where a, b, and c are
+                    sides and C is the angle opposite of c
     Inputs are assumed to be valid Decimals
     Returns an unrounded Decimal
     """

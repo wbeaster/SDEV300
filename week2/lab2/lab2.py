@@ -20,7 +20,6 @@ from datetime import date
 import math
 import secrets
 import string
-import sys
 
 MAIN_MENU_CHOICES = ['a', 'b', 'c', 'd', 'e', 'f']
 YES = ['Y', 'YES']
@@ -47,37 +46,8 @@ def get_choice_main_menu():
     """
     choice = None
     while choice not in MAIN_MENU_CHOICES:
-        choice = input("Choice (a - f): ")
+        choice = input("Choice (a - f): ").lower()
     return choice
-
-def dispatch(choice):
-    """
-    Function is passed a valid choice and then call the appropriate
-    function
-    """
-    if choice == 'a':
-        password_args = generate_secure_password_menu()
-        password = generate_secure_password(password_args)
-        print(f'Your password is: {password}')
-    elif choice == 'b':
-        percentage_args = calculate_and_format_percentage_menu()
-        percentage = calculate_and_format_percentage(percentage_args)
-        print(f'Your percentge is: {percentage}')
-    elif choice == 'c':
-        days = days_until_20250704()
-        print(f'Days until July 4, 2025: {days}')
-    elif choice == 'd':
-        cosine_leg_args = cosine_leg_menu()
-        leg = cosine_leg(cosine_leg_args)
-        #TODO: Round to thousandths place
-        print(f'The length of leg C is: {leg}')
-    elif choice == 'e':
-        cylinder_args = right_circular_cylindar_column_menu()
-        cylinder_volume = right_circular_cylindar_column(cylinder_args)
-        print(f'The cyclinder\'s volume is: {cylinder_volume}')
-    elif choice == 'f':
-        print("Thank you for using this application")
-        sys.exit()
 
 def generate_secure_password_menu():
     """
@@ -231,9 +201,11 @@ def calculate_and_format_percentage(args):
     return number
 
 def days_until_20250704():
-    """Displays the number of days from today until 4 Jul, 2025"""
-    """Assumes local timezone"""
-    
+    """
+    Displays the number of days from today until 4 Jul, 2025
+    Assumes local timezone
+    """
+
     #since the specificaion has the date hard coded no, effort has been
     #made to generalizethis function in the name of foregoing premature
     #optimization.
@@ -251,12 +223,10 @@ def cosine_leg_menu():
     #Law of cosines question I had
     #https://youtu.be/ZElOxG7_m3c
 
-    #TODO: Add the law of cosines to the comments
     opposite_angle = None
     side_a = None
     side_b = None
 
-    #TODO: Am I consistent in my use of colons on menu items?
     while not opposite_angle:
         opposite_angle = input("Opposite angle in degrees (must be a positive number < 180): ")
         if not opposite_angle.isdecimal():
@@ -302,7 +272,7 @@ def cosine_leg(args):
     side_c = side_c2.sqrt()
 
     return side_c
-    
+
 def right_circular_cylindar_column_menu():
     """
     Asks the user for cylinder radius and cylinder height
@@ -335,18 +305,41 @@ def right_circular_cylindar_column(args):
     Returns a Decimal of the volume
     """
     radius, height = args
-    
+
     return Decimal((Decimal(math.pi) * radius ** 2) * height)
 
 def main():
     """This is the main loop for the application"""
     display_banner()
-    display_main_menu()
-    choice = get_choice_main_menu()
-    dispatch(choice)
 
+    choice = None
 
+    while choice != 'f':
 
+        display_main_menu()
+        choice = get_choice_main_menu()
 
+        if choice == 'a':
+            password_args = generate_secure_password_menu()
+            password = generate_secure_password(password_args)
+            print(f'Your password is: {password}')
+        elif choice == 'b':
+            percentage_args = calculate_and_format_percentage_menu()
+            percentage = calculate_and_format_percentage(percentage_args)
+            print(f'Your percentge is: {percentage}')
+        elif choice == 'c':
+            days = days_until_20250704()
+            print(f'Days until July 4, 2025: {days}')
+        elif choice == 'd':
+            cosine_leg_args = cosine_leg_menu()
+            leg = cosine_leg(cosine_leg_args)
+            #TODO: Round to thousandths place
+            print(f'The length of leg C is: {leg}')
+        elif choice == 'e':
+            cylinder_args = right_circular_cylindar_column_menu()
+            cylinder_volume = right_circular_cylindar_column(cylinder_args)
+            print(f'The cyclinder\'s volume is: {cylinder_volume}')
+        elif choice == 'f':
+            print("Thank you for using this application")
 
 main()

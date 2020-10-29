@@ -75,10 +75,7 @@ def generate_secure_password_menu():
             if use_lower_case not in YES and use_lower_case not in NO:
                 use_lower_case = None
 
-        if use_lower_case in YES:
-            use_lower_case = True
-        else:
-            use_lower_case = False
+        use_lower_case = use_lower_case in YES
 
         while not use_upper_case:
             use_upper_case = input('Use upper case letters? (y/n) ').upper()
@@ -86,10 +83,7 @@ def generate_secure_password_menu():
             if use_upper_case not in YES and use_upper_case not in NO:
                 use_upper_case = None
 
-        if use_upper_case in YES:
-            use_upper_case = True
-        else:
-            use_upper_case = False
+        use_upper_case = use_upper_case in YES
 
         while not use_numbers:
             use_numbers = input('Use numbers? (y/n) ').upper()
@@ -97,10 +91,7 @@ def generate_secure_password_menu():
             if use_numbers not in YES and use_numbers not in NO:
                 use_numbers = None
 
-        if use_numbers in YES:
-            use_numbers = True
-        else:
-            use_numbers = False
+        use_numbers = use_numbers in YES
 
         while not use_specials:
             use_specials = input('Use specials? (y/n) ').upper()
@@ -108,10 +99,7 @@ def generate_secure_password_menu():
             if use_specials not in YES and use_specials not in NO:
                 use_specials = None
 
-        if use_specials in YES:
-            use_specials = True
-        else:
-            use_specials = False
+        use_specials = use_specials in YES
 
         if not (use_lower_case or use_upper_case or use_numbers or use_specials):
             print('You must select at least one complexity (lower case, upper case, numbers, ' +
@@ -333,7 +321,6 @@ def main():
         elif choice == 'd':
             cosine_leg_args = cosine_leg_menu()
             leg = cosine_leg(cosine_leg_args)
-            #TODO: Round to thousandths place
             print(f'The length of leg C is: {leg}')
         elif choice == 'e':
             cylinder_args = right_circular_cylindar_column_menu()

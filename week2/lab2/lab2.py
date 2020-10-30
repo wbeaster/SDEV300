@@ -49,6 +49,24 @@ def get_choice_main_menu():
         choice = input("Choice (a - f): ").lower()
     return choice
 
+def get_yes_no(prompt):
+    """
+    This exists solely because the linter says there are too many branches
+    in generate_secure_password_nmenu()
+    Expects a string to be used as the prompt
+    Tests to make sure the user enters some thing in YES or NO
+    Returns_______
+    """
+    response = None
+
+    while not response:
+        response = input(prompt).upper()
+
+        if response not in YES and response not in NO:
+            response = None
+
+    return response
+
 def generate_secure_password_menu():
     """
     Dispalys password options to the user and allows them to select
@@ -69,37 +87,14 @@ def generate_secure_password_menu():
     length = int(length)
 
     while not (use_lower_case or use_upper_case or use_numbers or use_specials):
-        while not use_lower_case:
-            use_lower_case = input('Use lower case letters? (y/n) ').upper()
 
-            if use_lower_case not in YES and use_lower_case not in NO:
-                use_lower_case = None
+        use_lower_case = get_yes_no('Use lower case letters? (y/n) ') in YES
 
-        use_lower_case = use_lower_case in YES
+        use_upper_case = get_yes_no('Use upper case letters? (y/n) ') in YES
 
-        while not use_upper_case:
-            use_upper_case = input('Use upper case letters? (y/n) ').upper()
+        use_numbers = get_yes_no('Use numbers? (y/n) ') in YES
 
-            if use_upper_case not in YES and use_upper_case not in NO:
-                use_upper_case = None
-
-        use_upper_case = use_upper_case in YES
-
-        while not use_numbers:
-            use_numbers = input('Use numbers? (y/n) ').upper()
-
-            if use_numbers not in YES and use_numbers not in NO:
-                use_numbers = None
-
-        use_numbers = use_numbers in YES
-
-        while not use_specials:
-            use_specials = input('Use specials? (y/n) ').upper()
-
-            if use_specials not in YES and use_specials not in NO:
-                use_specials = None
-
-        use_specials = use_specials in YES
+        use_specials = get_yes_no('Use specials? (y/n) ') in YES
 
         if not (use_lower_case or use_upper_case or use_numbers or use_specials):
             print('You must select at least one complexity (lower case, upper case, numbers, ' +

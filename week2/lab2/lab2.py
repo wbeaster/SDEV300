@@ -249,8 +249,6 @@ def cosine_leg(args):
 
     cos_deg = Decimal(math.cos(opposite_angle))
 
-    #TODO: Watch a video on properly dealing with Python Decimal
-    #I'm not sure where the conversions are, what's overloaded, etc.
     side_c2 = (side_a ** 2) + (side_b ** 2) - (2 * side_a * side_b * cos_deg)
     side_c = side_c2.sqrt()
 

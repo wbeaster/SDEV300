@@ -206,20 +206,12 @@ def cosine_leg_menu():
     #Law of cosines question I had
     #https://youtu.be/ZElOxG7_m3c
 
-    opposite_angle = None
     side_a = None
     side_b = None
-
-    while not opposite_angle:
-        opposite_angle = input("Opposite angle in degrees (must be a positive number < 180): ")
-        if not opposite_angle.isdecimal():
-            opposite_angle = None
-        elif not Decimal(opposite_angle) > 0 and not Decimal(opposite_angle) < 180:
-            opposite_angle = None
-    opposite_angle = Decimal(opposite_angle)
+    opposite_angle = None
 
     while not side_a:
-        side_a = input("Side A (must be a positive number): ")
+        side_a = input("Side A (must be a positive integer): ")
         if not side_a.isdecimal():
             side_a = None
         elif not Decimal(side_a) > 0:
@@ -227,12 +219,20 @@ def cosine_leg_menu():
     side_a = Decimal(side_a)
 
     while not side_b:
-        side_b = input("Side B (must be a positive number): ")
+        side_b = input("Side B (must be a positive integer): ")
         if not side_b.isdecimal():
             side_b = None
         if not Decimal(side_b) > 0:
             side_b = None
     side_b = Decimal(side_b)
+
+    while not opposite_angle:
+        opposite_angle = input("Opposite angle in radians (must be a positive integer < 180): ")
+        if not opposite_angle.isdecimal():
+            opposite_angle = None
+        elif not Decimal(opposite_angle) > 0 and not Decimal(opposite_angle) < 180:
+            opposite_angle = None
+    opposite_angle = Decimal(opposite_angle)
 
     return side_a, side_b, opposite_angle
 
@@ -240,7 +240,7 @@ def cosine_leg(args):
     """
     Calculates a cosine leg using the Law of Cosines based on the inputs
     Law of Cosines: c^2 = a^2 + b^2 - 2ab cos(C) where a, b, and c are
-                    sides and C is the angle opposite of c
+                    sides and C is the angle opposite of c in radians
     Inputs are assumed to be valid Decimals
     Returns an unrounded Decimal
     """
@@ -249,7 +249,7 @@ def cosine_leg(args):
 
     cos_deg = Decimal(math.cos(opposite_angle))
 
-    side_c2 = (side_a ** 2) + (side_b ** 2) - (2 * side_a * side_b * cos_deg)
+    side_c2 = (side_a ** 2) + (side_b ** 2) - ((2 * side_a * side_b) * cos_deg)
     side_c = side_c2.sqrt()
 
     return side_c

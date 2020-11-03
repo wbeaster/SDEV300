@@ -143,22 +143,22 @@ def calculate_and_format_percentage_menu():
     print("decimal place.")
 
     while not numerator:
-        numerator = input("Numerator (most be a number): ")
+        numerator = input("Numerator (must be a positive integer): ")
         if not numerator.isdecimal():
             numerator = None
     numerator = Decimal(numerator)
 
     while not denominator:
-        denominator = input("Denominator (most be a non-zero number): ")
+        denominator = input("Denominator (must be a positive integer): ")
         if not denominator.isdecimal():
             denominator = None
-        elif denominator == 0:
+        elif int(denominator) == 0:
             denominator = None
     denominator = Decimal(denominator)
 
     while not decimals:
-        decimals = input("Number of decimals to display: ")
-        if not decimals.isdigit():
+        decimals = input("Number of decimals to display (must be positive integer): ")
+        if not decimals.isdecimal():
             decimals = None
         elif int(decimals) < 0:
             decimals = None
@@ -173,7 +173,6 @@ def calculate_and_format_percentage(args):
     """
     numerator, denominator, decimals = args
 
-    #print(f"Debug data {number}")
     #took a lot of teeth gnashing but the below link showed me the best
     #way to deal with any Python float/rounding issues
     #note that Decimal is imported above
@@ -222,15 +221,15 @@ def cosine_leg_menu():
         side_b = input("Side B (must be a positive integer): ")
         if not side_b.isdecimal():
             side_b = None
-        if not Decimal(side_b) > 0:
+        elif not Decimal(side_b) > 0:
             side_b = None
     side_b = Decimal(side_b)
 
     while not opposite_angle:
-        opposite_angle = input("Opposite angle in radians (must be a positive integer < 180): ")
+        opposite_angle = input("Opposite angle in radians (must be a positive integer): ")
         if not opposite_angle.isdecimal():
             opposite_angle = None
-        elif not Decimal(opposite_angle) > 0 and not Decimal(opposite_angle) < 180:
+        elif not Decimal(opposite_angle) > 0:
             opposite_angle = None
     opposite_angle = Decimal(opposite_angle)
 
@@ -239,14 +238,14 @@ def cosine_leg_menu():
 def cosine_leg(args):
     """
     Calculates a cosine leg using the Law of Cosines based on the inputs
-    Law of Cosines: c^2 = a^2 + b^2 - 2ab cos(C) where a, b, and c are
+    Law of Cosines: c ** 2 = a ** 2 + b ** 2 - 2ab cos(C) where a, b, and c are
                     sides and C is the angle opposite of c in radians
     Inputs are assumed to be valid Decimals
     Returns an unrounded Decimal
     """
 
     side_a, side_b, opposite_angle = args
-
+    #this is actually radians
     cos_deg = Decimal(math.cos(opposite_angle))
 
     side_c2 = (side_a ** 2) + (side_b ** 2) - ((2 * side_a * side_b) * cos_deg)
@@ -262,7 +261,7 @@ def right_circular_cylindar_column_menu():
     height = None
 
     while not radius:
-        radius = input("Radius (must be a positive number: ")
+        radius = input("Radius (must be a positive integer): ")
         if not radius.isdecimal():
             radius = None
         elif not Decimal(radius) > 0:
@@ -270,7 +269,7 @@ def right_circular_cylindar_column_menu():
     radius = Decimal(radius)
 
     while not height:
-        height = input("Height (must be a positive number): ")
+        height = input("Height (must be a positive integer): ")
         if not height.isdecimal():
             height = None
         elif not Decimal(height) > 0:

@@ -10,21 +10,22 @@ Dictionary of dictionaries
 """
 
 states = {
-    'Alabama':
-        {'capital': 'H',
-         'popoulation': 2,
-         'flower': 'test'},
-    'Alaska':
-        {'capital': 'A',
+    'AL':
+        {'name':'Alabama',
+         'capital': 'Montgomery',
+         'population': 2,
+         'flower': 'alabama flower'},
+    'AK':
+        {'name':'Alaska',
+        'capital': 'Juneau',
         'population': 1,
-        'flower': 'alaska test'}
+        'flower': 'alaska flower'}
 }
-
-def display_main_menu():
+def main_menu():
     """
     Parameters: None
-    Returns: None
-    This function only dispalys the main menu
+    Returns: str of menu choice
+    This function asks the user for their choice and the returns it
     """
     print('***Welcome to Lab3, fun with states!***')
     print('1. Display states in alphabetical order with additional information')
@@ -33,14 +34,7 @@ def display_main_menu():
     print('4. Update a states population')
     print('5. Exit')
 
-def main_menu_choice():
-    """
-    Parameters: None
-    Returns: str of menu choice
-    This function asks the user for their choice and the returns it
-    """
-
-    return input('Choice (1-5):' )
+    return input('Choice (1-5): ' )
 
 def display_all_alpha():
     """
@@ -50,6 +44,13 @@ def display_all_alpha():
     corresponding additional data
     """
 
+    #TODO: Make an alphabetized list/dictionary first
+
+    print(f'{"State"} \t\t {"Capital"} \t\t {"Population"} \t\t {"Flower"}')
+    for state_id in states:
+        print(states[state_id]['name'], end="\t")
+        print(f"\t{states[state_id]['capital']}")
+
 def get_state():
     """
     Parameters: None
@@ -57,6 +58,8 @@ def get_state():
     Asks and validates the user's state choice
     TODO: Tab completion?
     """
+
+    return 'Alsaka' 
 
 def display_state(state):
     """
@@ -66,6 +69,11 @@ def display_state(state):
     to it
     """
 
+def graph_top_five_pop():
+    return True
+
+def update_state_pop():
+    return True
 
 
 
@@ -74,7 +82,6 @@ choice = None
 exit = False
 
 while choice != exit:
-    display_main_menu()
     choice = main_menu()
 
     if choice == '1':

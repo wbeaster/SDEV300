@@ -6,21 +6,55 @@ Need to:
     Bar graph of top five states by population
     Update population
 
-Dictionary of dictionaries
+List of dictionaries
 """
 
-states = {
-    'AL':
-        {'name':'Alabama',
-         'capital': 'Montgomery',
-         'population': 2,
-         'flower': 'alabama flower'},
-    'AK':
-        {'name':'Alaska',
-        'capital': 'Juneau',
+states_list = [
+    {
+        'p_abb': 'AL',
+        'name':'Alabama',
+        'capital': 'Montgomery',
         'population': 1,
-        'flower': 'alaska flower'}
-}
+        'flower': 'alabama flower'
+    },
+    {
+        'p_abb': 'AK',
+        'name':'Alaska',
+        'capital': 'Juneau',
+        'population': 2,
+        'flower': 'alaska flower'
+    },
+    {
+        'p_abb': 'AA',
+        'name': 'AA Alpha Test',
+        'capital': 'aa Alpha Test',
+        'population': 0,
+        'flower': 'aa Alpha Test'}
+]
+
+def print_all_state_data_header():
+    """
+    Parameters: None
+    Returns: None
+    This function just prints the table header for state tables
+    """
+
+    print(f'{"State":<15}{"Capital":<15}{"Population":<15}{"Flower":<15}')
+
+def print_all_state_data(abb):
+    """
+    Parameter: string: The state's two-letter postal abbreviation
+    Returns: Nothing
+    This function prints out a states data
+    """
+    
+    result = list(filter(lambda s_list: s_list['p_abb'] == abb, states_list))
+
+    print(f"{result[0]['name']:<15}", end="")
+    print(f"{result[0]['capital']:<15}", end="")
+    print(f"{result[0]['population']:<15}", end="")
+    print(f"{result[0]['flower']}")
+
 def main_menu():
     """
     Parameters: None
@@ -34,7 +68,7 @@ def main_menu():
     print('4. Update a states population')
     print('5. Exit')
 
-    return input('Choice (1-5): ' )
+    return input('Choice (1-5): ')
 
 def display_all_alpha():
     """
@@ -44,39 +78,44 @@ def display_all_alpha():
     corresponding additional data
     """
 
-    #TODO: Make an alphabetized list/dictionary first
-
-    print(f'{"State"} \t\t {"Capital"} \t\t {"Population"} \t\t {"Flower"}')
-    for state_id in states:
-        print(states[state_id]['name'], end="\t")
-        print(f"\t{states[state_id]['capital']}")
+    sorted_states_list = sorted(states_list, key=lambda s: s['name'])
+    
+    print_all_state_data_header()
+    for index in range(len(sorted_states_list)):
+        print_all_state_data(sorted_states_list[index]['p_abb'])
 
 def get_state():
     """
     Parameters: None
-    Returns: String with state's name
+    Returns: String with state's two-letter postal abbreviation
     Asks and validates the user's state choice
     TODO: Tab completion?
     """
 
-    return 'Alsaka' 
+    state_choice = None
 
-def display_state(state):
+    #TODO: Make the code to handle bad user input
+
+    state_choice = input("Enter the state (two-letter code or name: ").upper()
+
+    return state_choice
+
+def display_state(state_choice):
     """
-    Parameters: None
+    Parameters: the two-letter postal abbreviation of the selected state
     Returns: None
     This function display the state and data based on the state passed
     to it
     """
+
+    print_all_state_data_header()
+    print_all_state_data(state_choice)
 
 def graph_top_five_pop():
     return True
 
 def update_state_pop():
     return True
-
-
-
 
 choice = None
 exit = False

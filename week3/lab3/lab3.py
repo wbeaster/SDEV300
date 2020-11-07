@@ -1,5 +1,10 @@
 import os
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 from PIL import Image
+
 
 RES_LOC = '/week3/lab3/res/'
 """
@@ -67,7 +72,6 @@ def print_all_state_data(abb):
     Returns: Nothing
     This function prints out a states data
     """
-    
     result = list(filter(lambda s_list: s_list['p_abb'] == abb, states_list))
 
     print(f"{result[0]['name']:<15}", end="")
@@ -91,7 +95,6 @@ def display_flower(abb):
     #image = Image.open(dir + result[0]['flower_file'])
     image = Image.open(os.getcwd() + RES_LOC + result[0]['flower_file'])
     image.show()
-
 
 def main_menu():
     """
@@ -151,7 +154,30 @@ def display_state(state_choice):
     display_flower(state_choice)
 
 def graph_top_five_pop():
-    return True
+    """
+    Parameters: None
+    Returns: None
+    Displays a graph of the top five states by population
+    TODO: Make sure test data changes population and then graphs top five population again
+    """
+
+    sorted_states_list = sorted(states_list, key=lambda p: p['population'], reverse=True)
+    
+    state_names = []
+    state_pops = []
+    
+    for index in range(0, 5):
+        state_names.append(sorted_states_list[index]['name'])
+        state_pops.append(sorted_states_list[index]['population'])
+
+    #state_pops = list_comprehension
+
+    title = 'Five most populace states'
+    sns.set_style('whitegrid')
+    axes = sns.barplot(x=state_names, y=state_pops, palette='bright')
+    axes.set_title(title)
+    axes.set(xlabel='State', ylabel='Population')
+    plt.show()
 
 def update_state_pop():
     return True

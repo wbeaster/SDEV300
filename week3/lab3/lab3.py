@@ -1,5 +1,9 @@
+import os
+from PIL import Image
+
+RES_LOC = '/week3/lab3/res/'
 """
-will be a dictionary of dictionaries
+will be a list of dictionaries
 Need to:
     Sort by state
     Search for a state and display selected traits
@@ -15,21 +19,37 @@ states_list = [
         'name':'Alabama',
         'capital': 'Montgomery',
         'population': 1,
-        'flower': 'alabama flower'
+        'flower_name': 'Camelia',
+        'flower_file': 'camellia-flower.jpg'
     },
     {
         'p_abb': 'AK',
         'name':'Alaska',
         'capital': 'Juneau',
         'population': 2,
-        'flower': 'alaska flower'
+        'flower_name': 'Forget Me Not'
     },
     {
-        'p_abb': 'AA',
-        'name': 'AA Alpha Test',
-        'capital': 'aa Alpha Test',
+        'p_abb': 'AZ',
+        'name': 'Arizona',
+        'capital': 'Phoenix',
         'population': 0,
-        'flower': 'aa Alpha Test'}
+        'flower_name': 'Saguaro Cactus Blossom'
+    },
+    {
+        'p_abb': 'WY',
+        'name': 'Wyoming',
+        'capital': 'Cheyenne',
+        'population': 3,
+        'flower_name': 'Indian Paintbrush'
+    },
+    {
+        'p_abb': 'AR',
+        'name': 'Arkansas',
+        'capital': 'Little Rock',
+        'population': 67,
+        'flower_name': 'Apple Blossom'
+    }
 ]
 
 def print_all_state_data_header():
@@ -53,7 +73,25 @@ def print_all_state_data(abb):
     print(f"{result[0]['name']:<15}", end="")
     print(f"{result[0]['capital']:<15}", end="")
     print(f"{result[0]['population']:<15}", end="")
-    print(f"{result[0]['flower']}")
+    print(f"{result[0]['flower_name']}")
+
+def display_flower(abb):
+    """
+
+    """
+    #TODO: Write get_state which wraps this
+    result = list(filter(lambda s_list: s_list['p_abb'] == abb, states_list))
+
+    #It took me far longer than I wanted to figure out how to make the
+    #path work properly. Ugh.
+    #currentDirectory = os.getcwd()
+    #dir = currentDirectory + '/week3/lab3/res/'
+    #print(currentDirectory)
+    #print(dir)
+    #image = Image.open(dir + result[0]['flower_file'])
+    image = Image.open(os.getcwd() + RES_LOC + result[0]['flower_file'])
+    image.show()
+
 
 def main_menu():
     """
@@ -110,6 +148,7 @@ def display_state(state_choice):
 
     print_all_state_data_header()
     print_all_state_data(state_choice)
+    display_flower(state_choice)
 
 def graph_top_five_pop():
     return True

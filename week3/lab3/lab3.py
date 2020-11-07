@@ -1,4 +1,5 @@
 import os
+import sys
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -179,29 +180,59 @@ def graph_top_five_pop():
     axes.set(xlabel='State', ylabel='Population')
     plt.show()
 
-def update_state_pop():
-    return True
+def get_updated_state_pop():
+    """
+    Paramters: None
 
-choice = None
-exit = False
+    Returns: A tuple with state to be updated and the updated population
+    """
+    update_state = get_state()
+    
+    update_pop = None
 
-while choice != exit:
-    choice = main_menu()
+    #TODO: Make it so this handles bad user input
+    update_pop = input("Enter the new population (must be a positive integer): ")
 
-    if choice == '1':
-        display_all_alpha()
-    elif choice == '2':
-        state = get_state()
-        display_state(state)
-    elif choice == '3':
-        graph_top_five_pop()
-    elif choice == '4':
-        update_state_pop()
-    elif choice == '5':
-        exit = True
-    else:
-        print("Please enter a choice from the menu.")
+    return update_state, update_pop
     
 
+def update_state_pop(p_abb, updated_pop):
+    """
+    Paramters: 
+    The two letter postal abbreviation for hte state to update
+    The updated population for the state
+
+    Returns: Nothing
+
+    This function updates a state's population per the paramenters provided.
+    Assumes that the postal abbreviation is valid. Assumes the population is
+    a positive integer.
+    """
+
+    for index in range(0, len(states_list)):
+        if states_list[index]['p_abb'] == p_abb:
+            states_list[index]['population'] = int(updated_pop)
+
+def main():
+
+    choice = None
+
+    while choice != '5':
+        choice = main_menu()
+
+        if choice == '1':
+            display_all_alpha()
+        elif choice == '2':
+            state = get_state()
+            display_state(state)
+        elif choice == '3':
+            graph_top_five_pop()
+        elif choice == '4':
+            name, updated_pop = get_updated_state_pop()
+            update_state_pop(name, updated_pop)
+        elif choice == '5':
+            print("Thank you for using this application")
+
+main()
 
 

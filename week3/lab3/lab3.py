@@ -1,3 +1,14 @@
+"""
+This is the program for SDEV300 7384 Lab 3
+
+1. Display all U.S. States in Alphabetical order along with the Capital, State Population,and Flower
+2. Search for a specific state and display the appropriate Capital name, State Population,and an
+image of the associated State Flower.
+3. Provide a Bar graph of the top 5populated States showing their overall population.
+4. Update theoverall state populationfor a specific state.
+5. Exit the program
+"""
+
 import os
 
 import matplotlib.pyplot as plt
@@ -407,7 +418,7 @@ states_list = [
         'population': 5813570,
         'flower_name': 'Wood Violet',
         'flower_file': 'wood-violet.jpg'
-    }    
+    }
 ]
 
 def print_all_state_data_header():
@@ -436,7 +447,7 @@ def display_flower(abb):
     """
     Paramters: The postal abbreviation for the state who's flower should
     be displayed. Assumes a valid postal abbreviation
-    
+
     Returns: None
 
 
@@ -479,7 +490,7 @@ def display_all_alpha():
     """
 
     sorted_states_list = sorted(states_list, key=lambda s: s['name'])
-    
+
     print_all_state_data_header()
     for index in range(len(sorted_states_list)):
         print_all_state_data(sorted_states_list[index]['p_abb'])
@@ -493,17 +504,17 @@ def get_state():
     Asks and validates the user's state choice
     """
 
-    state_choice = None
+    choice = None
 
-    while state_choice is None:
-        state_choice = input("Enter the state (two-letter code or name: ").upper()
-        if len(state_choice) == 2:
-            result = list(filter(lambda s_list: s_list['p_abb'] == state_choice, states_list))
+    while choice is None:
+        choice = input("Enter the state (two-letter code or name: ").upper()
+        if len(choice) == 2:
+            result = list(filter(lambda s_list: s_list['p_abb'] == choice, states_list))
         else:
-            result = list(filter(lambda s_list: s_list['name'].upper() == state_choice, states_list))
+            result = list(filter(lambda s_list: s_list['name'].upper() == choice, states_list))
         if len(result) == 0:
-            print(f"{state_choice} is not a valid choice.")
-            state_choice = None
+            print(f"{choice} is not a valid choice.")
+            choice = None
 
     return result[0]['p_abb']
 
@@ -528,10 +539,10 @@ def graph_top_five_pop():
     """
 
     sorted_states_list = sorted(states_list, key=lambda p: p['population'], reverse=True)
-    
+
     state_names = []
     state_pops = []
-    
+
     for index in range(0, 5):
         state_names.append(sorted_states_list[index]['name'])
         state_pops.append(sorted_states_list[index]['population'])
@@ -543,6 +554,7 @@ def graph_top_five_pop():
     axes = sns.barplot(x=state_names, y=state_pops, palette='bright')
     axes.set_title(title)
     axes.set(xlabel='State', ylabel='Population')
+    axes.set_ylim(top=state_pops[0] * 1.1)
     plt.show()
 
 def get_updated_pop():
@@ -560,12 +572,12 @@ def get_updated_pop():
             updated_pop = None
         elif updated_pop < 1:
             updated_pop = None
-    
+
     return updated_pop
 
 def update_state_pop(p_abb, updated_pop):
     """
-    Paramters: 
+    Paramters:
     The two letter postal abbreviation for hte state to update
     The updated population for the state
 
@@ -581,6 +593,10 @@ def update_state_pop(p_abb, updated_pop):
             states_list[index]['population'] = int(updated_pop)
 
 def main():
+    """
+    This is the main function for the program. The main loop runs in it
+    and some variables that the linter might think are constants are here
+    """
 
     #TODO: Make the bargaph y-saxis sensible
     #TODO: Figure out what the exponent is at the top left of bar graph
@@ -604,5 +620,3 @@ def main():
             print("Thank you for using this application")
 
 main()
-
-

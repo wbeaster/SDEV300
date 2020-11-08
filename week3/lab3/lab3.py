@@ -5,7 +5,6 @@ import seaborn as sns
 
 from PIL import Image
 
-
 RES_LOC = '/week3/lab3/res/'
 
 states_list = [
@@ -430,7 +429,7 @@ def print_all_state_data(abb):
 
     print(f"{result[0]['name']:<15}", end="")
     print(f"{result[0]['capital']:<15}", end="")
-    print(f"{result[0]['population']:<15}", end="")
+    print(f"{result[0]['population']:<15,}", end="")
     print(f"{result[0]['flower_name']}")
 
 def display_flower(abb):
@@ -442,7 +441,6 @@ def display_flower(abb):
 
 
     """
-    #TODO: Write get_state which wraps this
     result = list(filter(lambda s_list: s_list['p_abb'] == abb, states_list))
 
     #It took me far longer than I wanted to figure out how to make the
@@ -497,9 +495,7 @@ def get_state():
 
     state_choice = None
 
-    #TODO: Make the code to handle bad user input
-
-    while state_choice == None:
+    while state_choice is None:
         state_choice = input("Enter the state (two-letter code or name: ").upper()
         if len(state_choice) == 2:
             result = list(filter(lambda s_list: s_list['p_abb'] == state_choice, states_list))
@@ -558,17 +554,14 @@ def get_updated_pop():
     """
     updated_pop = None
 
-    #TODO: Make it so this handles bad user input
     while not updated_pop:
         updated_pop = input("Enter the new population (must be a positive integer): ")
         if not updated_pop.isnumeric():
             updated_pop = None
         elif updated_pop < 1:
             updated_pop = None
-    #updated_pop = Decimal(updated_pop)
     
     return updated_pop
-    
 
 def update_state_pop(p_abb, updated_pop):
     """
@@ -589,7 +582,6 @@ def update_state_pop(p_abb, updated_pop):
 
 def main():
 
-    #TODO: Make so that the population nmbers print with commas
     #TODO: Make the bargaph y-saxis sensible
     #TODO: Figure out what the exponent is at the top left of bar graph
     choice = None

@@ -568,10 +568,10 @@ def get_updated_pop():
     updated_pop = None
 
     while not updated_pop:
-        updated_pop = input("Enter the new population (must be a positive integer): ")
+        updated_pop = input("Enter the new population (must be an integer 0 or greater): ")
         if not updated_pop.isnumeric():
             updated_pop = None
-        elif int(updated_pop) < 1:
+        elif int(updated_pop) < 0:
             updated_pop = None
 
     return int(updated_pop)

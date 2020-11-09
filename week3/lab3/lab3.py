@@ -492,8 +492,8 @@ def display_all_alpha():
     sorted_states_list = sorted(states_list, key=lambda s: s['name'])
 
     print_all_state_data_header()
-    for index in range(len(sorted_states_list)):
-        print_all_state_data(sorted_states_list[index]['p_abb'])
+    for state in sorted_states_list:
+        print_all_state_data(state['p_abb'])
 
 def get_state():
     """
@@ -555,6 +555,7 @@ def graph_top_five_pop():
     axes.set_title(title)
     axes.set(xlabel='State', ylabel='Population')
     axes.set_ylim(top=state_pops[0] * 1.1)
+    axes.set_ylim([0, 40000000])
     plt.show()
 
 def get_updated_pop():
@@ -570,10 +571,10 @@ def get_updated_pop():
         updated_pop = input("Enter the new population (must be a positive integer): ")
         if not updated_pop.isnumeric():
             updated_pop = None
-        elif updated_pop < 1:
+        elif int(updated_pop) < 1:
             updated_pop = None
 
-    return updated_pop
+    return int(updated_pop)
 
 def update_state_pop(p_abb, updated_pop):
     """
@@ -588,9 +589,14 @@ def update_state_pop(p_abb, updated_pop):
     a positive integer.
     """
 
-    for index in range(0, len(states_list)):
-        if states_list[index]['p_abb'] == p_abb:
-            states_list[index]['population'] = int(updated_pop)
+#    for index in range(0, len(states_list)):
+#        if states_list[index]['p_abb'] == p_abb:
+#            states_list[index]['population'] = int(updated_pop)
+
+    for state in states_list:
+        if state['p_abb'] == p_abb:
+            state['population'] = int(updated_pop)
+
 
 def main():
     """
@@ -598,8 +604,6 @@ def main():
     and some variables that the linter might think are constants are here
     """
 
-    #TODO: Make the bargaph y-saxis sensible
-    #TODO: Figure out what the exponent is at the top left of bar graph
     choice = None
 
     while choice != '5':

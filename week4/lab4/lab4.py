@@ -141,9 +141,9 @@ def handle_matrix():
     # numpy.set_printoptions.html#numpy.set_printoptions
     np.set_printoptions(precision=2, floatmode='fixed')
 
-
     matrix1, matrix2 = get_matrices()
-    #test data
+    #test data, by commenting out the above line and uncommenting the
+    #below lines, you don't have to do matrix data entry while testing
     # matrix1 = np.array([[1, 2, 4],
     #                     [4, 2, 1],
     #                     [3, 8, 9]])
@@ -154,7 +154,7 @@ def handle_matrix():
 
     choice = None
 
-    while choice != 4:
+    while choice != 5:
         print("***Okay, let's have some fun with those matrices!***")
         print("1. Add")
         print("2. Subtract")

@@ -108,8 +108,6 @@ def handle_phone():
 
     print('Valid phone number. Thank you.')
 
-    return
-
 def handle_zip4():
     """
     Parameters: None
@@ -126,8 +124,6 @@ def handle_zip4():
 
     print('Valid ZIP+4. Thank you.')
 
-    return
-
 def handle_matrix():
     """
     Parameters: None
@@ -139,23 +135,24 @@ def handle_matrix():
     it displays a menu to the user to let the user determine what
     operation to perform on the matrices.
     """
-    #matrix1, matrix2 = get_matrices()
-    #TODO: Delete this test data before you submit!
-    matrix1 = np.array([[1, 2, 4],
-                        [4, 2, 1],
-                        [3, 8, 9]])
-
-    matrix2 = np.array([[3, 2, 1],
-                        [7, 2, 5],
-                        [5, 2, 1]])
-
-    choice = None
-
     #help from here: https://stackoverflow.com/questions/2891790/
     # how-to-pretty-print-a-numpy-array-without-scientific-notation-and-with-given-pre
     #https://numpy.org/doc/stable/reference/generated/
     # numpy.set_printoptions.html#numpy.set_printoptions
     np.set_printoptions(precision=2, floatmode='fixed')
+
+
+    matrix1, matrix2 = get_matrices()
+    #test data
+    # matrix1 = np.array([[1, 2, 4],
+    #                     [4, 2, 1],
+    #                     [3, 8, 9]])
+
+    # matrix2 = np.array([[3, 2, 1],
+    #                     [7, 2, 5],
+    #                     [5, 2, 1]])
+
+    choice = None
 
     while choice != 4:
         print("***Okay, let's have some fun with those matrices!***")
@@ -164,7 +161,7 @@ def handle_matrix():
         print("3. Matrix multiplication")
         print("4. Element by element multiplication")
         print("5. Exit")
-        choice = input("Please enter a number (1-4): ")
+        choice = input("Please enter a number (1-5): ")
 
         if choice == "1":
             matrix3 = matrix1 + matrix2
@@ -173,6 +170,7 @@ def handle_matrix():
             print(matrix2)
             print("=")
             print(matrix3)
+            print_trans_means(matrix3)
         elif choice == "2":
             matrix3 = matrix1 - matrix2
             print(matrix1)
@@ -180,6 +178,7 @@ def handle_matrix():
             print(matrix2)
             print("=")
             print(matrix3)
+            print_trans_means(matrix3)
         elif choice == "3":
             print("Matrix multiplication")
             matrix3 = np.matmul(matrix1, matrix2)
@@ -188,6 +187,7 @@ def handle_matrix():
             print(matrix2)
             print("=")
             print(matrix3)
+            print_trans_means(matrix3)
         elif choice == "4":
             print("Matrix element multiplication")
             matrix3 = matrix1 * matrix2
@@ -196,18 +196,10 @@ def handle_matrix():
             print(matrix2)
             print("=")
             print(matrix3)
+            print_trans_means(matrix3)
         elif choice == '5':
             print("Thank you for using this application")
             break
-
-        print("Transpose:")
-        print(matrix3.T)
-        print("The mean of rows:")
-        print(matrix3.mean(axis=1))
-        print("The mean of columns:")
-        print(matrix3.mean(axis=0))
-
-    return
 
 def is_valid_phone(number):
     """
@@ -256,8 +248,6 @@ def main_menu():
             print("Thank you for using this application")
             break
 
-    return
-
 def main():
     """
     Parameters: None
@@ -267,6 +257,22 @@ def main():
     This is just a stub that calls main_menu()
     """
     main_menu()
-    return
+
+def print_trans_means(matrix):
+    """
+    Parameters: A 3x3 nparray
+
+    Returns: None
+
+    This function prints the transpose, row mean, and column mean of the
+    matrxi that is based to it.
+    """
+
+    print("Transpose:")
+    print(matrix.T)
+    print("The mean of rows:")
+    print(matrix.mean(axis=1))
+    print("The mean of columns:")
+    print(matrix.mean(axis=0))
 
 main()

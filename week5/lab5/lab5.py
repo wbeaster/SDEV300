@@ -45,10 +45,16 @@ def analyze_housing_data():
             choice = None
         elif choice == "3":
             print(df.delta.describe())
-
+        elif choice == "4":
+            print(df.delta.describe())
+        elif choice == "5":
+            print(df.delta.describe())
+        elif choice == "6":
+            print(df.delta.describe())
+        elif choice == "7":
+            print(df.delta.describe())
             plt.hist(df["delta"])
             plt.show()
-
             choice = None
         elif choice == "8":
             # TODO: I think we want to make it so just goes up a menu level

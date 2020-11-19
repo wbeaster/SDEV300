@@ -6,9 +6,16 @@ import pandas as pd
 LOC_POP_CHANGE = "/week5/lab5/PopChange.csv"
 LOC_HOUSING = "/week5/lab5/Housing.csv"
 
+def data_dump(df, column):
+    print(f"You selected {column}")
+    print("The statistics for this column are:")
+    print(df[column].describe())
+    plt.hist(df[column], edgecolor='black')
+    print("The histogram for this column is now displayed")
+    plt.show()
+
 def analyze_housing_data():
     #open the file
-    #TODO: Make it so it does not output exponential notation
     pd.set_option('precision', 2)
     pd.set_option('display.float_format', '{:,.2f}'.format)
     df = pd.read_csv(os.getcwd() + LOC_HOUSING)
@@ -33,28 +40,34 @@ def analyze_housing_data():
         print("7. Analyze 'UTILITY'")
         print("8. Exit")
 
-        choice = input("Enter your choice (1 - 4): ")
+        choice = input("Enter your choice (1 - 8): ")
 
         if choice == "1":
-            #TODO: Print the describe of the data
-            plt.hist(df["AGE"], edgecolor='black')
-            plt.show()
+            data_dump(df, "AGE")
+            # print("You selected _____")
+            # print("The statistics for this column are:")
+            # print(df["AGE"].describe())
+            # plt.hist(df["AGE"], edgecolor='black')
+            # print("The histogram for this column is now displayed")
+            # plt.show()
             choice = None
         elif choice == "2":
-            print(df.pop_jul1.describe())
+            data_dump(df, "BEDRMS")
             choice = None
         elif choice == "3":
-            print(df.delta.describe())
+            data_dump(df, "BUILT")
+            choice = None
         elif choice == "4":
-            print(df.delta.describe())
+            data_dump(df, "NUNITS")
+            choice = None
         elif choice == "5":
-            print(df.delta.describe())
+            data_dump(df, "ROOMS")
+            choice = None
         elif choice == "6":
-            print(df.delta.describe())
+            data_dump(df, "WEIGHT")
+            choice = None
         elif choice == "7":
-            print(df.delta.describe())
-            plt.hist(df["delta"])
-            plt.show()
+            data_dump(df, "UTILITY")
             choice = None
         elif choice == "8":
             # TODO: I think we want to make it so just goes up a menu level
@@ -66,7 +79,6 @@ def analyze_housing_data():
     #show the menu again
     return
 
-
 def analyze_population_data():
     #open the file
     #TODO: Make it so it does not output exponential notation
@@ -75,9 +87,6 @@ def analyze_population_data():
     pd.set_option('display.float_format', '{:,.2f}'.format)
     df = pd.read_csv(os.getcwd() + LOC_POP_CHANGE)
     df.columns = ["id", "geography", "tgi", "tgi2", "pop_apr1", "pop_jul1", "delta"]
-    #print(df.columns)
-    #print(df.head())
-    #print(df.tail())
     
     #show a menu givning the user the choice on which column to analyze
     print("You selected population data")
@@ -94,33 +103,20 @@ def analyze_population_data():
         choice = input("Enter your choice (1 - 4): ")
 
         if choice == "1":
-            #TODO: Print the describe of the data
-            pops = df["pop_apr1"]
-            #plt.hist(pops)
-            # plt.hist(df["pop_apr1"], bins=5)
+            print("You selected _____")
+            print("The statistics for this column are:")
+            print(df["pop_apr1"].describe())
             plt.hist(df["pop_apr1"], log=True)
+            print("The histogram for this column is now displayed")
             plt.show()
-
-
-
-            #df.hist(column="pop_apr1")
-            #df.pop_apr1.hist()
-            #plt.hist(df.pop_apr1)
-            #plt.show()
-            #histogram = df.pop_apr1.hist()
-            #histogram = df.hist()
-            #histogram.show()
-            #df.hist().show()
             choice = None
         elif choice == "2":
             print(df.pop_jul1.describe())
             choice = None
         elif choice == "3":
             print(df.delta.describe())
-
             plt.hist(df["delta"])
             plt.show()
-
             choice = None
         elif choice == "4":
             break

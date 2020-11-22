@@ -11,7 +11,7 @@ from matplotlib import pyplot as plt
 import pandas as pd
 
 # TODO: use the data without Puerto Rico?
-LOC_POP_CHANGE = "/week5/lab5/PopChange2.csv"
+LOC_POP_CHANGE = "/week5/lab5/PopChange.csv"
 LOC_HOUSING = "/week5/lab5/Housing.csv"
 
 def data_dump(df, column):
@@ -22,6 +22,9 @@ def data_dump(df, column):
 
     Returns: Nothing
     """
+    pd.set_option('precision', 2)
+    pd.set_option('display.float_format', '{:,.2f}'.format)
+    #plt.ticklabel_format(style='plain')
     print(f"You selected {column}")
     print("The statistics for this column are:")
     print(df[column].describe())
@@ -40,8 +43,8 @@ def analyze_housing_data():
     """
 
     #open the file
-    pd.set_option('precision', 2)
-    pd.set_option('display.float_format', '{:,.2f}'.format)
+    # pd.set_option('precision', 2)
+    # pd.set_option('display.float_format', '{:,.2f}'.format)
     df = pd.read_csv(os.getcwd() + LOC_HOUSING)
 
     #show a menu giving the user the choice on which column to analyze

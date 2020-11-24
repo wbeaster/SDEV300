@@ -7,4 +7,5 @@ examples
 *.pdf
 *.png
 *.zip
-week6/flasktest/__pycache__/hello_sdev.cpython-36.pyc
+week6/flasktest/__pycache__
+week6/flasktest/venv

@@ -7,4 +7,4 @@ def index():
     return show_hello()
 
 def show_hello():
-    return 'Hellow world!'
+    return 'Hello world!'

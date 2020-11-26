@@ -12,7 +12,6 @@ def index():
 @app.route('/kualalumpur')
 def kualalumpur():
     return render_template("kualalumpur.html")
-# TODO: Make routes for the other pages
 
 @app.route('/penang')
 def penang():
@@ -25,7 +24,3 @@ def singapore():
 @app.route('/vietnam')
 def vietnam():
     return render_template("vietnam.html")
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

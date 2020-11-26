@@ -7,13 +7,17 @@
 {% block body %}
 
     <h1>Vietnam</h1>
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus sint officia, architecto blanditiis praesentium repellendus error, commodi corrupti perspiciatis aperiam beatae cumque voluptates vero dolore dicta facere deleniti? Maiores, corporis.
+    </p>
+
     <ul>
-        <li><a href = {{ url_for('static', filename='img/1383802331750.jpg') }}>Pic1</li>
-        <li><a href = {{ url_for('static', filename='img/IMG_20120815_122234.jpg') }}>Pic2</li>
-        <li><a href = {{ url_for('static', filename='img/IMG_20150320_145140.jpg') }}>Pic3</li>
+        <li><a href = {{ url_for('static', filename='img/1383802331750.jpg') }}>Pic1</a></li>
+        <li><a href = {{ url_for('static', filename='img/IMG_20120815_122234.jpg') }}>Pic2</a></li>
+        <li><a href = {{ url_for('static', filename='img/IMG_20150320_145140.jpg') }}>Pic3</a></li>
     
     </ul>
 
-    More about Vietnam here <em>(<- Make this a link)</em>
+    More about Vietnam <a href = "https://en.wikipedia.org/wiki/Vietnam">here</a>.
 
 {% endblock %}

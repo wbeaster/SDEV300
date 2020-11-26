@@ -7,12 +7,17 @@
 {% block body %}
 
     <h1>Kuala Lumpur</h1>
+
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti laudantium quis magnam accusantium ad culpa reprehenderit aspernatur consequuntur aliquam rerum vero modi, quo enim nemo, fugit officia inventore quibusdam mollitia?
+    </p>
+
     <ol>
         <li><a href = {{ url_for('static', filename='img/IMG_20130206_150115.jpg') }}>Pic1</a></li>
         <li><a href = {{ url_for('static', filename='img/IMG_20141117_132802.jpg') }}>Pic2</a></li>
         <li><a href = {{ url_for('static', filename='img/IMG_20181102_093237.jpg') }}>Pic3</a></li>
     </ol>
 
-    More about Kuala Lumpur here <em>(<- Make this a link)</em>
+    More about Kuala Lumpur <a href = "https://en.wikipedia.org/wiki/Kuala_Lumpur">here</a>.
 
 {% endblock %}

@@ -13,13 +13,12 @@
     to travel all over Southeast Asia. Here are some of the picture I have taken.
 </p>
     <h2>Malaysia</h2>
-        <h3>Kuala Lumpur</h3>
-        <h3>Penang</h3>
-    <h2>Singapore</h2>
-    <h2>Vietnam</h2>
+        <h3><a href = {{ url_for("kualalumpur") }}>Kuala Lumpur</a></h3>
+        <h3><a href = {{ url_for("penang") }}>Penang</a></h3>
+    <h2><a href = {{ url_for("singapore") }}>Singapore</a></h2>
+    <h2><a href = {{ url_for("vietnam") }}>Vietnam</a></h2>
 
-<!-- TODO: Improve the time formatting -->
-    Current time: {{ now }}
+    Current time: {{ nowstr }}
 
 {% endblock %}
 

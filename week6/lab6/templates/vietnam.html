@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Vietnam</h1>
+    <ul>
+        <li><a href = {{ url_for('static', filename='img/1383802331750.jpg') }}>Pic1</li>
+        <li><a href = {{ url_for('static', filename='img/IMG_20120815_122234.jpg') }}>Pic2</li>
+        <li><a href = {{ url_for('static', filename='img/IMG_20150320_145140.jpg') }}>Pic3</li>
+    
+    </ul>
+
+    More about Vietnam here <em>(<- Make this a link)</em>
+
+{% endblock %}

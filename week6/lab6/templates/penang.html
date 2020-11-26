@@ -6,13 +6,13 @@
 
 {% block body %}
 
-<h1>Penang</h1>
-<ul>
-    <li>Pic1</li>
-    <li>Pic2</li>
-    <li>Pic3</li>
-</ul>
-
-More about Penang here <em>(<- Make this a link)</em>
+    <h1>Penang</h1>
+    <ul>
+        <li><a href = {{ url_for('static', filename='img/IMG_20170325_111011.jpg') }}>Pic1</li>
+        <li><a href = {{ url_for('static', filename='img/IMG_20170325_173136.jpg') }}>Pic2</li>
+        <li><a href = {{ url_for('static', filename='img/PANO_20170325_142059.jpg') }}>Pic3</li>
+    </ul>
+    
+    More about Penang here <em>(<- Make this a link)</em>
 
 {% endblock %}

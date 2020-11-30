@@ -1,0 +1,15 @@
+body 
+{
+    margin: 10%;
+    font-family: sans-serif;
+}
+
+.container 
+{
+    width: 66%;
+    margin: auto;
+    padding: 2%;
+    background: #ccc;
+    border-radius: 5%;
+}
+

@@ -7,5 +7,7 @@ examples
 *.pdf
 *.png
 *.zip
-/__pycache__
-/venv
+*/__pycache__
+*/venv
+week6/flasktest/__pycache__
+week6/flasktest/venv

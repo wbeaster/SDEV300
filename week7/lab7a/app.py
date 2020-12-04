@@ -29,7 +29,6 @@ if not exists(PASSFILE):
 @app.route('/')
 def index():
     """Serves the homepage"""
-    
     # Prep the time information
     now = datetime.now()
     nowstr = now.strftime('%Y-%m-%d %H:%M:%S')
@@ -43,10 +42,30 @@ def index():
 def login():
     if request.method == "POST":
         username = request.form["username"]
-        #TODO: Write the code to check the passfile
+        password = request.form["password"]
         
-        session["username"] = username
-        return redirect(url_for("index"))
+        #TODO: Write the code to check the passfile
+        valid_user = False
+        valid_password = False
+
+        with open(PASSFILE, "r") as passfile:
+            for record in passfile:
+                r_username, r_salt, r_salt_hash = record.split(",")
+                if username == r_username:
+                    valid_user = True
+                    salt_hash = sha256_crypt.hash(password + r_salt)
+                    # FIXME: r_salt_hash has a trailing \n
+                    if salt_hash == r_salt_hash:
+                        valid_password = True
+                        break
+                valid_user, valid_password = False, False
+
+        # TODO: Use flash for "Invalid username or password"
+        if not valid_user:
+            pass
+        else:
+            session["username"] = username
+            return redirect(url_for("index"))
     else:
         if "username" in session:
             return redirect(url_for("index"))
@@ -62,19 +81,17 @@ def register():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        # TODO: salt = ???
+        # TODO: Generate a random salt, 32 bytes long
         salt = "a"
         password_hash = sha256_crypt.hash(password + salt)
 
         # TODO: Use flash to highlight registration errors
 
-        # open file
-        with open(PASSFILE, "a") as f:
-            f.writelines(username + ", " + salt + "," + password_hash)
-        # write date to file
+        with open(PASSFILE, "a") as passfile:
+            passfile.write(username + "," + salt + "," + password_hash + "\n")
         # close file
         # show success screen
-        # go to login
+        return redirect(url_for("login"))
     
     if "username" in session:
         # TODO: Show them a special page

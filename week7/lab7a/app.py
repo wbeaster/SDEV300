@@ -24,6 +24,9 @@ app.secret_key = "changeToFile"
 #key. Secret ket normally stored in a file that is not uploaded to github
 #app.secret_key = "changeToFile"
 
+# necessary for the image manipulation
+images = Images(app)
+
 # create a file for logins and hashes if it does not exist
 if not exists(PASSFILE):
     open(PASSFILE, "w").close()
@@ -67,10 +70,10 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         
-        #TODO: Write the code to check the passfile
         valid_user = False
         valid_password = False
 
+        # check if the user and hash are in the file
         with open(PASSFILE, "r") as passfile:
             for record in passfile:
                 r_username, r_salt_hash = record.split()
@@ -81,25 +84,29 @@ def login():
                         break
                 valid_user, valid_password = False, False
 
-        # TODO: Use flash for "Invalid username or password"
-        if not valid_user:
-            pass
+        if not valid_user or not valid_password:
+            flash("Invalid username or password")
         else:
             session["username"] = username
             return redirect(url_for("index"))
     else:
         if "username" in session:
             return redirect(url_for("index"))
-        return render_template("login.html")
+    
+    return render_template("login.html")
 
 @app.route("/logout")
 def logout():
     session.pop("username", None)
+    flash("You have been logged out.")
     return redirect(url_for("index"))
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
     if request.method == "POST":
+        if "username" in session:
+            flash("Logout if you would like a new registration.")
+    
         username = None
         password = None
         error = None
@@ -117,23 +124,16 @@ def register():
         elif not is_complex(password):
             error = "Password not complex enough"
 
-        # TODO: Use flash to highlight registration errors
-        # TODO: Login name cannot contain spaces
         if error:
             flash(error)
         else:
             password_hash = sha256_crypt.hash(password)
             with open(PASSFILE, "a") as passfile:
                 passfile.write(username + " " + password_hash + "\n")
-            # TODO: show success screen
-            flash("Registration successful")
+            flash("Registration successful. Please login.")
             return redirect(url_for("login"))
     
-    if "username" in session:
-        # TODO: Show them a special page
-        pass
-    else:
-        return render_template("register.html")
+    return render_template("register.html")
 
 
 @app.route('/user')

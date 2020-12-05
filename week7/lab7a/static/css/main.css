@@ -13,3 +13,9 @@ body
     border-radius: 5%;
 }
 
+.flash_area
+{
+    width: 66%;
+    margin: auto;
+    padding: 2%;
+}

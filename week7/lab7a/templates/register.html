@@ -6,17 +6,21 @@
 
 {% block body %}
 
-<h1>Register</h1>
+<div class="container">
 
-<form action="#" method="post">
-    <p><label for="username">Name:</label></p>
-    <p><input type="text" name="username"></p>
-    <p>Username may not contain spaces</p>
+    <h1>Register</h1>
 
-    <p><label for="password">Password:</label></p>
-    <p><input type="password" name="password"></p>
+    <form action="#" method="post">
+        <p><label for="username">Name:</label></p>
+        <p><input type="text" name="username"></p>
+        <p>Username may not contain spaces</p>
 
-    <p><input type="submit" class="submit" value="Submit"></p>
-</form>
+        <p><label for="password">Password:</label></p>
+        <p><input type="password" name="password"></p>
+
+        <p><input type="submit" class="submit" value="Submit"></p>
+    </form>
+
+</div>
 
 {% endblock %}

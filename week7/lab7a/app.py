@@ -16,6 +16,7 @@ PASSFILE = "passfile"
 KEYFILE = "keyfile"
 
 app = Flask(__name__)
+app.debug = True
 
 # TODO: Change this to a file
 app.secret_key = "changeToFile"
@@ -23,9 +24,6 @@ app.secret_key = "changeToFile"
 #Uncomment the below line to not have to check a file for the secret
 #key. Secret ket normally stored in a file that is not uploaded to github
 #app.secret_key = "changeToFile"
-
-# necessary for the image manipulation
-images = Images(app)
 
 # create a file for logins and hashes if it does not exist
 if not exists(PASSFILE):
@@ -135,7 +133,6 @@ def register():
     
     return render_template("register.html")
 
-
 @app.route('/user')
 def user():
     if "username" in session:
@@ -160,7 +157,6 @@ def penang():
     else:
         abort(401)
 
-
 @app.route('/singapore')
 def singapore():
     """Serves the Singapore page"""
@@ -178,5 +174,13 @@ def vietnam():
     else:
         abort(401)
 
+@app.route('/table')
+def table():
+    """Serves a table of pictures"""
+    if "username" in session:
+        return render_template("table.html")
+    else:
+        abort(401)
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=True)

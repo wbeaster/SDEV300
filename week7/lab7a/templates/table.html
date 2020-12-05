@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<!-- 4 rows by 3 columns table -->
+
+<div class = "container">
+    <table>
+        <tr>
+            <td><img src={{ url_for('static', filename='img/IMG_20130206_150115.jpg') }} height="200px" width="auto" alt=""></td>
+            <td><img src={{ url_for('static', filename='img/IMG_20141117_132802.jpg') }} height="200px" width="auto" alt=""></td>
+            <td><img src={{ url_for('static', filename='img/IMG_20181102_093237.jpg') }} height="200px" width="auto" alt=""></td>
+        </tr>
+        <tr>
+            <td><img src={{ url_for('static', filename='img/IMG_20170325_111011.jpg') }} height="200px" width="auto" alt=""></td>
+            <td><img src={{ url_for('static', filename='img/IMG_20170325_173136.jpg') }} height="200px" width="auto" alt=""></td>
+            <td><img src={{ url_for('static', filename='img/PANO_20170325_142059.jpg') }} height="200px" width="auto" alt=""></td>
+        </tr>
+        <tr>
+            <td><img src={{ url_for('static', filename='img/IMG_20130921_172246.jpg') }} height="200px" width="auto" alt=""></td>
+            <td><img src={{ url_for('static', filename='img/IMG_20140208_130655-edited_1.jpg') }} height="200px" width="auto" alt=""></td>
+            <td><img src={{ url_for('static', filename='img/IMG_20140209_184627.jpg') }} height="200px" width="auto" alt=""></td>
+        </tr>
+        <tr>
+            <td><img src={{ url_for('static', filename='img/1383802331750.jpg') }} height="200px" width="auto" alt=""></td>
+            <td><img src={{ url_for('static', filename='img/IMG_20120815_122234.jpg') }} height="200px" width="auto" alt=""></td>
+            <td><img src={{ url_for('static', filename='img/IMG_20150320_145140.jpg') }} height="200px" width="auto" alt=""></td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

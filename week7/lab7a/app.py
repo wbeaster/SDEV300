@@ -7,6 +7,7 @@ from datetime import datetime
 from flask import Flask, flash, render_template, redirect, request, session, url_for, abort
 from os.path import exists
 from passlib.hash import sha256_crypt
+from string import punctuation
 
 # TODO: Need to make a new virtual environment, not just copy and paste from lab6
 # TODO: Make a constant for the name of the password file
@@ -40,7 +41,13 @@ def has_whitespace(string):
     return len(temp) > 1
 
 def is_complex(password):
-    return True
+    if (len(password) >= 12):
+        if (any(c.isupper() for c in password)):
+            if (any(c.islower() for c in password)):
+                if (any(c.isdigit() for c in password)):
+                    if (any(c in punctuation for c in password)):
+                        return True
+    return False
 
 @app.route('/')
 def index():

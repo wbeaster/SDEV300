@@ -4,7 +4,7 @@ places I have travelled to.
 """
 
 from datetime import datetime
-from flask import Flask, render_template, redirect, request, session, url_for, abort
+from flask import Flask, flash, render_template, redirect, request, session, url_for, abort
 from os.path import exists
 from passlib.hash import sha256_crypt
 
@@ -50,12 +50,14 @@ def login():
 
         with open(PASSFILE, "r") as passfile:
             for record in passfile:
-                r_username, r_salt, r_salt_hash = record.split(",")
+                r_username, r_salt_hash = record.split()
                 if username == r_username:
                     valid_user = True
-                    salt_hash = sha256_crypt.hash(password + r_salt)
-                    # FIXME: r_salt_hash has a trailing \n
-                    if salt_hash == r_salt_hash:
+                    #salt_hash = sha256_crypt.hash(password + r_salt)
+                    #salt_hash = sha256_crypt.hash(password)
+                    #if password == r_salt_hash:
+                    #if salt_hash == r_salt_hash:
+                    if sha256_crypt.verify(password, r_salt_hash):
                         valid_password = True
                         break
                 valid_user, valid_password = False, False
@@ -79,18 +81,21 @@ def logout():
 @app.route("/register", methods=["POST", "GET"])
 def register():
     if request.method == "POST":
+        username = None
+        passsword = None
         username = request.form["username"]
         password = request.form["password"]
-        # TODO: Generate a random salt, 32 bytes long
-        salt = "a"
-        password_hash = sha256_crypt.hash(password + salt)
+        password_hash = sha256_crypt.hash(password)
 
+        if not username:
+            error = "Please enter a username"
+        
         # TODO: Use flash to highlight registration errors
+        # TODO: Login name cannot contain spaces
 
         with open(PASSFILE, "a") as passfile:
-            passfile.write(username + "," + salt + "," + password_hash + "\n")
-        # close file
-        # show success screen
+            passfile.write(username + " " + password_hash + "\n")
+        # TODO: show success screen
         return redirect(url_for("login"))
     
     if "username" in session:

@@ -23,8 +23,24 @@ app.secret_key = "changeToFile"
 #key. Secret ket normally stored in a file that is not uploaded to github
 #app.secret_key = "changeToFile"
 
+# create a file for logins and hashes if it does not exist
 if not exists(PASSFILE):
     open(PASSFILE, "w").close()
+
+def is_registered(username):
+    with open(PASSFILE, "r") as passfile:
+        for record in passfile:
+            r_username, r_salt_hash = record.split()
+            if username == r_username:
+                return True
+    return False
+
+def has_whitespace(string):
+    temp = string.split()
+    return len(temp) > 1
+
+def is_complex(password):
+    return True
 
 @app.route('/')
 def index():
@@ -53,10 +69,6 @@ def login():
                 r_username, r_salt_hash = record.split()
                 if username == r_username:
                     valid_user = True
-                    #salt_hash = sha256_crypt.hash(password + r_salt)
-                    #salt_hash = sha256_crypt.hash(password)
-                    #if password == r_salt_hash:
-                    #if salt_hash == r_salt_hash:
                     if sha256_crypt.verify(password, r_salt_hash):
                         valid_password = True
                         break
@@ -82,21 +94,33 @@ def logout():
 def register():
     if request.method == "POST":
         username = None
-        passsword = None
+        password = None
+        error = None
         username = request.form["username"]
         password = request.form["password"]
-        password_hash = sha256_crypt.hash(password)
 
         if not username:
             error = "Please enter a username"
-        
+        elif not password:
+            error = "Please enter a password."
+        elif is_registered(username):
+            error = "Username already registered"
+        elif has_whitespace(username):
+            error = "Username may not have spaces"
+        elif not is_complex(password):
+            error = "Password not complex enough"
+
         # TODO: Use flash to highlight registration errors
         # TODO: Login name cannot contain spaces
-
-        with open(PASSFILE, "a") as passfile:
-            passfile.write(username + " " + password_hash + "\n")
-        # TODO: show success screen
-        return redirect(url_for("login"))
+        if error:
+            flash(error)
+        else:
+            password_hash = sha256_crypt.hash(password)
+            with open(PASSFILE, "a") as passfile:
+                passfile.write(username + " " + password_hash + "\n")
+            # TODO: show success screen
+            flash("Registration successful")
+            return redirect(url_for("login"))
     
     if "username" in session:
         # TODO: Show them a special page

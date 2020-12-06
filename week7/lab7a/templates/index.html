@@ -8,41 +8,55 @@
 
 <!-- This is a comment, as required -->
 {# just for good measure, this is a Jinja comment #}
-<div class = "container">
+<div class="container">
     <h1>Pictures from Southeast Asia</h1>
     <p>
         I've been very fortunate over the course of my life. I have had opportunities
         to travel all over Southeast Asia. Here are some of the picture I have taken.
     </p>
     <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae consequatur iste dolor corporis a aliquam, non, unde maiores aperiam, suscipit obcaecati? Optio at neque tempora voluptatibus id repellat deleniti architecto!
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae consequatur iste dolor corporis a aliquam, non,
+        unde maiores aperiam, suscipit obcaecati? Optio at neque tempora voluptatibus id repellat deleniti architecto!
     </p>
-    
+
     <h2>Malaysia</h2>
-        <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos sed delectus quasi minima ipsum temporibus repellat ipsam deleniti laborum animi doloremque, asperiores, officiis suscipit error. Repellendus doloremque illo officiis tenetur!
-        </p>
-        <h3><a href = {{ url_for("kualalumpur") }}>Kuala Lumpur</a></h3>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla aliquid expedita similique nisi amet minima debitis, quo iure nobis ad voluptas doloremque? Voluptatum delectus quaerat, in quisquam veniam corporis aliquid.
-        </p>
-        <h3><a href = {{ url_for("penang") }}>Penang</a></h3>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate numquam laboriosam voluptas nobis vero optio, voluptatum perferendis voluptatibus doloribus minima odio! Fugiat sed libero neque soluta aperiam facere laborum quis.
-        </p>
-    <h2><a href = {{ url_for("singapore") }}>Singapore</a></h2>
     <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit harum optio numquam eum adipisci vitae consectetur omnis nisi sunt, ducimus doloremque laudantium. Omnis eos facere repudiandae quae, dignissimos voluptas ex.
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos sed delectus quasi minima ipsum temporibus
+        repellat ipsam deleniti laborum animi doloremque, asperiores, officiis suscipit error. Repellendus doloremque
+        illo officiis tenetur!
     </p>
-    <h2><a href = {{ url_for("vietnam") }}>Vietnam</a></h2>
+    <h3><a href={{ url_for("kualalumpur") }}>Kuala Lumpur</a></h3>
     <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit officia itaque dolorum. Laudantium tenetur harum quaerat adipisci architecto itaque sint ex, mollitia explicabo eaque impedit nemo quam reiciendis repellat eius!
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla aliquid expedita similique nisi amet minima
+        debitis, quo iure nobis ad voluptas doloremque? Voluptatum delectus quaerat, in quisquam veniam corporis
+        aliquid.
+    </p>
+    <h3><a href={{ url_for("penang") }}>Penang</a></h3>
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate numquam laboriosam voluptas nobis vero optio,
+        voluptatum perferendis voluptatibus doloribus minima odio! Fugiat sed libero neque soluta aperiam facere laborum
+        quis.
+    </p>
+    <h2><a href={{ url_for("singapore") }}>Singapore</a></h2>
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit harum optio numquam eum adipisci vitae
+        consectetur omnis nisi sunt, ducimus doloremque laudantium. Omnis eos facere repudiandae quae, dignissimos
+        voluptas ex.
+    </p>
+    <h2><a href={{ url_for("vietnam") }}>Vietnam</a></h2>
+    <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit officia itaque dolorum. Laudantium tenetur harum
+        quaerat adipisci architecto itaque sint ex, mollitia explicabo eaque impedit nemo quam reiciendis repellat eius!
     </p>
     <h2><a href={{ url_for("table") }}>A table of pictures</a></h2>
+    <p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia dolorem fugiat, laborum, temporibus error
+        eligendi repudiandae inventore sapiente nostrum iusto necessitatibus, illo fugit recusandae quia autem ut
+        deleniti. Provident, minus!
+    </p>
 
     Current time: {{ nowstr }}
-    <a href = {{ url_for("logout") }}> Logout </a>
+    <a href={{ url_for("logout") }}> Logout </a>
 </div>
 
 {% endblock %}
-

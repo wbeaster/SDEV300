@@ -110,8 +110,9 @@ def login():
 @app.route("/logout")
 def logout():
     """Serves the logout page"""
-    session.pop("username", None)
-    flash("You have been logged out.")
+    if "username" in session:
+        session.pop("username", None)
+        flash("You have been logged out.")
     return redirect(url_for("index"))
 
 @app.route("/register", methods=["POST", "GET"])

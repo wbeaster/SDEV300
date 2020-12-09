@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<div class = "container">
+    <h1>Penang</h1>
+    <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt dolores porro possimus praesentium, maxime exercitationem, laborum voluptatibus dignissimos sint ad obcaecati tempore totam quam. Perspiciatis tempore earum culpa soluta porro?
+    </p>
+
+    <ul>
+        <li><a href = {{ url_for('static', filename='img/IMG_20170325_111011.jpg') }}>Pic1</a></li>
+        <li><a href = {{ url_for('static', filename='img/IMG_20170325_173136.jpg') }}>Pic2</a></li>
+        <li><a href = {{ url_for('static', filename='img/PANO_20170325_142059.jpg') }}>Pic3</a></li>
+    </ul>
+    
+    More about Penang <a href = "https://en.wikipedia.org/wiki/Penang">here</a>.
+</div>
+{% endblock %}

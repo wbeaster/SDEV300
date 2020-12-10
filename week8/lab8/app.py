@@ -150,6 +150,10 @@ def register():
 
     return render_template("register.html")
 
+@app.route('/user_update')
+def user_update():
+    pass
+
 @app.route('/user')
 def user():
     """Serves a page with the user's name on it."""

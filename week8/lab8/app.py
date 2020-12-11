@@ -15,8 +15,15 @@ PASSFILE = "passfile"
 # location of the Flask app.secret_key
 KEYFILE = "keyfile"
 
+# location of the common passwords file
+COMMON_PASSWORDS = "CommonPasswords.txt"
+
 app = Flask(__name__)
 app.debug = True
+
+# create a file for logins and hashes if it does not exist
+if not exists(PASSFILE):
+    open(PASSFILE, "w").close()
 
 # comment the two line below if there is no seperate key file
 # in the next block you can uncomment a line to use a weak key
@@ -26,10 +33,6 @@ with open(KEYFILE, "r") as keyfile:
 # Uncomment the below line to not have to check a file for the secret
 # key. Secret ket normally stored in a file that is not uploaded to github
 # app.secret_key = "changeToFile"
-
-# create a file for logins and hashes if it does not exist
-if not exists(PASSFILE):
-    open(PASSFILE, "w").close()
 
 def is_registered(username):
     """
@@ -62,6 +65,18 @@ def is_complex(password):
                 if any(c.isdigit() for c in password):
                     if any(c in punctuation for c in password):
                         return True
+    return False
+
+def is_common_password(password):
+    """
+    Function determines if a password is in common passwords list
+    """
+    # TODO: Test this
+    # this is very naive, but there is no need for premature optimization
+    with open(COMMON_PASSWORDS, "r") as common_passwords:
+        for word in common_passwords:
+            if password == word:
+                return True
     return False
 
 @app.route('/')
@@ -150,8 +165,19 @@ def register():
 
     return render_template("register.html")
 
-@app.route('/user_update')
-def user_update():
+@app.route('/changepassword', methods=["POST", "GET"])
+def change_password():
+    """Serves the change password page."""
+    if request.method == "POST":
+        if "username" in session:
+            pass
+            # TODO: Validate old password
+            # TODO: Confirm both new passwords match
+            # TODO: Confirm passwords are valid
+            # TODO: Update the password file
+    
+    return render_template("changepassword.html")
+
     pass
 
 @app.route('/user')

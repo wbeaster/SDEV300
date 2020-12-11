@@ -67,13 +67,6 @@ def is_complex(password):
                         return True
     return False
 
-def is_valid_login(username, password):
-    """
-    Function determines username/password combination is valid
-    Returns True if valid combination, False otherwise
-    """
-
-
 def is_common_password(password):
     """
     Function determines if a password is in common passwords list
@@ -84,6 +77,24 @@ def is_common_password(password):
         for word in common_passwords:
             if password == word:
                 return True
+    return False
+
+def is_valid_login(username, password):
+    """
+    Function determines username/password combination is valid
+    Returns True if valid combination, False otherwise
+    """
+    with open(PASSFILE, "r") as passfile:
+        for record in passfile:
+            valid_user, valid_password = False, False
+            r_username, r_salt_hash = record.split()
+            if username == r_username:
+                valid_user = True
+            if sha256_crypt.verify(password, r_salt_hash):
+                valid_password = True
+            if valid_user and valid_password:
+                return True
+
     return False
 
 @app.route('/')
@@ -104,22 +115,8 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        valid_user = False
-        valid_password = False
-
         # check if the user and hash are in the file
-        
-        with open(PASSFILE, "r") as passfile:
-            for record in passfile:
-                r_username, r_salt_hash = record.split()
-                if username == r_username:
-                    valid_user = True
-                    if sha256_crypt.verify(password, r_salt_hash):
-                        valid_password = True
-                        break
-                valid_user, valid_password = False, False
-
-        if not valid_user or not valid_password:
+        if not is_valid_login(username, password):
             flash("Invalid username or password")
         else:
             session["username"] = username

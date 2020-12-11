@@ -67,6 +67,13 @@ def is_complex(password):
                         return True
     return False
 
+def is_valid_login(username, password):
+    """
+    Function determines username/password combination is valid
+    Returns True if valid combination, False otherwise
+    """
+
+
 def is_common_password(password):
     """
     Function determines if a password is in common passwords list
@@ -101,6 +108,7 @@ def login():
         valid_password = False
 
         # check if the user and hash are in the file
+        
         with open(PASSFILE, "r") as passfile:
             for record in passfile:
                 r_username, r_salt_hash = record.split()
@@ -170,6 +178,19 @@ def change_password():
     """Serves the change password page."""
     if request.method == "POST":
         if "username" in session:
+            username = request.form["username"]
+            old_password = request.form["password"]
+            new_password1 = request.form["new_password1"]
+            new_password2 = request.form["new_password2"]
+
+            password_hash = sha256_crypt.hash(password)
+            with open(PASSFILE, "a") as passfile:
+                passfile.write(username + " " + password_hash + "\n")
+            flash("Registration successful. Please login.")
+            return redirect(url_for("login"))
+
+
+
             pass
             # TODO: Validate old password
             # TODO: Confirm both new passwords match

@@ -3,6 +3,7 @@ This application serves pages that can be used to illustrate some of the
 places I have travelled to.
 """
 
+import os
 from datetime import datetime
 from os.path import exists
 from string import punctuation
@@ -17,6 +18,11 @@ KEYFILE = "keyfile"
 
 # location of the common passwords file
 COMMON_PASSWORDS = "CommonPasswords.txt"
+
+# location of temporary file used when changing someone's passwrod
+# no passwords are stored in this file, only hashes
+# used by change_password()
+TEMPFILE = "tempfile"
 
 app = Flask(__name__)
 app.debug = True
@@ -174,29 +180,50 @@ def register():
 def change_password():
     """Serves the change password page."""
     if request.method == "POST":
+        error = None
         if "username" in session:
-            username = request.form["username"]
-            old_password = request.form["password"]
+            username = session["username"]
+            old_password = request.form["old_password"]
             new_password1 = request.form["new_password1"]
             new_password2 = request.form["new_password2"]
 
-            password_hash = sha256_crypt.hash(password)
-            with open(PASSFILE, "a") as passfile:
-                passfile.write(username + " " + password_hash + "\n")
-            flash("Registration successful. Please login.")
+            if not new_password1 == new_password2:
+                error = "New passwords do no match"
+            if not is_complex(new_password1):
+                error = "New password not complex enough"
+            if not is_valid_login(username, old_password):
+                error = "Incorrect old password"
+
+            if error:
+                flash(error)
+            else:
+                with open(PASSFILE, "r") as passfile, open(TEMPFILE, "a") as tempfile:
+                    for record in passfile:
+                        r_username, r_salt_hash = record.split()
+                        if username == r_username and sha256_crypt.verify(old_password, r_salt_hash):
+                            tempfile.write(username + " " + sha256_crypt.hash(new_password1) + "\n")
+                        else:
+                            tempfile.write(r_username + " " + r_salt_hash + "\n")
+
+                # remove the password backup file that *may* have been previously created
+                # fail silently if the file does not exist
+                # TODO: Test this with no .bak file available
+                try:
+                    os.remove(PASSFILE + ".bak")
+                except OSError as e:
+                    a = 1 + 1
+                    pass
+
+                # this keeps a backup of the previous passfile
+                os.rename(PASSFILE, PASSFILE + ".bak")
+                os.rename(TEMPFILE, PASSFILE)
+                flash("Password changed")
+        else:
+            # TODO: Test this
+            flash("Must be logged in to change password.")
             return redirect(url_for("login"))
 
-
-
-            pass
-            # TODO: Validate old password
-            # TODO: Confirm both new passwords match
-            # TODO: Confirm passwords are valid
-            # TODO: Update the password file
-    
     return render_template("changepassword.html")
-
-    pass
 
 @app.route('/user')
 def user():

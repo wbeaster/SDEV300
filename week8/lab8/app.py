@@ -17,7 +17,7 @@ PASSFILE = "passfile"
 KEYFILE = "keyfile"
 
 # location of the common passwords file
-COMMON_PASSWORDS = "CommonPasswords.txt"
+COMMON_PASSWORDS = "CommonPassword.txt"
 
 # location of temporary file used when changing someone's passwrod
 # no passwords are stored in this file, only hashes
@@ -46,11 +46,15 @@ def is_registered(username):
     """
     with open(PASSFILE, "r") as passfile:
         for record in passfile:
-            r_username, r_salt_hash = record.split()
-            # The below is just for the linter
-            r_salt_hash = r_salt_hash + "nothing"
-            if username == r_username:
-                return True
+            try:
+                r_username, r_salt_hash = record.split()
+                # The below is just for the linter
+                r_salt_hash = r_salt_hash + "nothing"
+                if username == r_username:
+                    return True
+            # this is to handle the initial blank file
+            except ValueError:
+                pass
     return False
 
 def has_whitespace(string):
@@ -77,7 +81,6 @@ def is_common_password(password):
     """
     Function determines if a password is in common passwords list
     """
-    # TODO: Test this
     # this is very naive, but there is no need for premature optimization
     with open(COMMON_PASSWORDS, "r") as common_passwords:
         for word in common_passwords:
@@ -164,6 +167,8 @@ def register():
             error = "Username may not have spaces"
         elif not is_complex(password):
             error = "Password not complex enough"
+        elif is_common_password(password):
+            error = "Password is frequently used. Please use another password."
 
         if error:
             flash(error)
@@ -189,10 +194,12 @@ def change_password():
 
             if not new_password1 == new_password2:
                 error = "New passwords do no match"
-            if not is_complex(new_password1):
+            elif not is_complex(new_password1):
                 error = "New password not complex enough"
-            if not is_valid_login(username, old_password):
+            elif not is_valid_login(username, old_password):
                 error = "Incorrect old password"
+            elif is_common_password(new_password1):
+                error = "Password is frequently used. Please use another password."
 
             if error:
                 flash(error)

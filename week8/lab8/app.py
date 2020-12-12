@@ -84,7 +84,8 @@ def is_common_password(password):
     # this is very naive, but there is no need for premature optimization
     with open(COMMON_PASSWORDS, "r") as common_passwords:
         for word in common_passwords:
-            if password == word:
+            # have to strip() or Python
+            if password == word.strip():
                 return True
     return False
 
@@ -95,14 +96,17 @@ def is_valid_login(username, password):
     """
     with open(PASSFILE, "r") as passfile:
         for record in passfile:
-            valid_user, valid_password = False, False
-            r_username, r_salt_hash = record.split()
-            if username == r_username:
-                valid_user = True
-            if sha256_crypt.verify(password, r_salt_hash):
-                valid_password = True
-            if valid_user and valid_password:
-                return True
+            try:
+                valid_user, valid_password = False, False
+                r_username, r_salt_hash = record.split()
+                if username == r_username:
+                    valid_user = True
+                if sha256_crypt.verify(password, r_salt_hash):
+                    valid_password = True
+                if valid_user and valid_password:
+                    return True
+            except ValueError:
+                pass
 
     return False
 
@@ -165,10 +169,10 @@ def register():
             error = "Username already registered"
         elif has_whitespace(username):
             error = "Username may not have spaces"
-        elif not is_complex(password):
-            error = "Password not complex enough"
         elif is_common_password(password):
             error = "Password is frequently used. Please use another password."
+        elif not is_complex(password):
+            error = "Password not complex enough"
 
         if error:
             flash(error)
@@ -194,37 +198,39 @@ def change_password():
 
             if not new_password1 == new_password2:
                 error = "New passwords do no match"
+            elif is_common_password(new_password1):
+                error = "Password is frequently used. Please use another password."
             elif not is_complex(new_password1):
                 error = "New password not complex enough"
             elif not is_valid_login(username, old_password):
                 error = "Incorrect old password"
-            elif is_common_password(new_password1):
-                error = "Password is frequently used. Please use another password."
 
             if error:
                 flash(error)
             else:
                 with open(PASSFILE, "r") as passfile, open(TEMPFILE, "a") as tempfile:
                     for record in passfile:
-                        r_username, r_salt_hash = record.split()
-                        if username == r_username and sha256_crypt.verify(old_password, r_salt_hash):
-                            tempfile.write(username + " " + sha256_crypt.hash(new_password1) + "\n")
-                        else:
-                            tempfile.write(r_username + " " + r_salt_hash + "\n")
+                        try:
+                            r_username, r_salt_hash = record.split()
+                            if username == r_username and sha256_crypt.verify(old_password, r_salt_hash):
+                                tempfile.write(username + " " + sha256_crypt.hash(new_password1) + "\n")
+                            else:
+                                tempfile.write(r_username + " " + r_salt_hash + "\n")
+                        except ValueError:
+                            pass
 
                 # remove the password backup file that *may* have been previously created
                 # fail silently if the file does not exist
-                # TODO: Test this with no .bak file available
                 try:
                     os.remove(PASSFILE + ".bak")
-                except OSError as e:
-                    a = 1 + 1
+                except OSError:
                     pass
 
                 # this keeps a backup of the previous passfile
                 os.rename(PASSFILE, PASSFILE + ".bak")
                 os.rename(TEMPFILE, PASSFILE)
                 flash("Password changed")
+                return render_template("index.html")
         else:
             # TODO: Test this
             flash("Must be logged in to change password.")

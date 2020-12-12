@@ -24,6 +24,9 @@ COMMON_PASSWORDS = "CommonPassword.txt"
 # used by change_password()
 TEMPFILE = "tempfile"
 
+# location of file to record failed logins
+FAILED_LOGINS = "failed_logins"
+
 app = Flask(__name__)
 app.debug = True
 
@@ -110,6 +113,25 @@ def is_valid_login(username, password):
 
     return False
 
+def record_failed_login(username):
+    """
+    Function writes failed logins to a file
+    """
+    
+    # so we do not risk writing to a non-existent file
+    if not exists(FAILED_LOGINS):
+        open(FAILED_LOGINS, "w").close()
+
+    time = datetime.now()
+
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        ip_addr = request.environ['REMOTE_ADDR']
+    else:
+        ip_addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
+
+    with open(FAILED_LOGINS, "a") as logfile:
+        logfile.write(time.isoformat() + " " + ip_addr + " " + username + "\n")
+
 @app.route('/')
 def index():
     """Serves the homepage"""
@@ -131,6 +153,7 @@ def login():
         # check if the user and hash are in the file
         if not is_valid_login(username, password):
             flash("Invalid username or password")
+            record_failed_login(username)
         else:
             session["username"] = username
             return redirect(url_for("index"))

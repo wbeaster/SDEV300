@@ -34,6 +34,11 @@ app.debug = True
 if not exists(PASSFILE):
     open(PASSFILE, "w").close()
 
+common_passwords = set()
+with open(COMMON_PASSWORDS, "r") as common_passwords_file:
+    for pword in common_passwords_file:
+        common_passwords.add(pword.strip())
+
 # comment the two line below if there is no seperate key file
 # in the next block you can uncomment a line to use a weak key
 with open(KEYFILE, "r") as keyfile:
@@ -80,17 +85,17 @@ def is_complex(password):
                         return True
     return False
 
-def is_common_password(password):
-    """
-    Function determines if a password is in common passwords list
-    """
-    # this is very naive, but there is no need for premature optimization
-    with open(COMMON_PASSWORDS, "r") as common_passwords:
-        for word in common_passwords:
-            # have to strip() or Python
-            if password == word.strip():
-                return True
-    return False
+#def is_common_password(password):
+#    """
+#    Function determines if a password is in common passwords list
+#    """
+#    # this is very naive, but there is no need for premature optimization
+#    with open(COMMON_PASSWORDS, "r") as common_passwords:
+#        for word in common_passwords:
+#            # have to strip() or Python
+#            if password == word.strip():
+#                return True
+#    return False
 
 def is_valid_login(username, password):
     """
@@ -110,7 +115,6 @@ def is_valid_login(username, password):
                     return True
             except ValueError:
                 pass
-
     return False
 
 def record_failed_login(username):
@@ -192,7 +196,7 @@ def register():
             error = "Username already registered"
         elif has_whitespace(username):
             error = "Username may not have spaces"
-        elif is_common_password(password):
+        elif password in common_passwords:
             error = "Password is frequently used. Please use another password."
         elif not is_complex(password):
             error = "Password not complex enough"
@@ -221,7 +225,7 @@ def change_password():
 
             if not new_password1 == new_password2:
                 error = "New passwords do no match"
-            elif is_common_password(new_password1):
+            elif new_password1 in common_passwords:
                 error = "New password is frequently used. Please use another password."
             elif not is_complex(new_password1):
                 error = "New password not complex enough"

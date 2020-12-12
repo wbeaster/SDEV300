@@ -199,7 +199,7 @@ def change_password():
             if not new_password1 == new_password2:
                 error = "New passwords do no match"
             elif is_common_password(new_password1):
-                error = "Password is frequently used. Please use another password."
+                error = "New password is frequently used. Please use another password."
             elif not is_complex(new_password1):
                 error = "New password not complex enough"
             elif not is_valid_login(username, old_password):
@@ -212,8 +212,15 @@ def change_password():
                     for record in passfile:
                         try:
                             r_username, r_salt_hash = record.split()
-                            if username == r_username and sha256_crypt.verify(old_password, r_salt_hash):
-                                tempfile.write(username + " " + sha256_crypt.hash(new_password1) + "\n")
+
+                            # same_username & same_password exist to
+                            # avoid the linter's 'Line too long' flag
+                            same_username = username == r_username
+                            same_password = sha256_crypt.verify(old_password, r_salt_hash)
+
+                            if same_username and same_password:
+                                t_salt_hash = sha256_crypt.hash(new_password1)
+                                tempfile.write(username + " " + t_salt_hash + "\n")
                             else:
                                 tempfile.write(r_username + " " + r_salt_hash + "\n")
                         except ValueError:
@@ -232,7 +239,6 @@ def change_password():
                 flash("Password changed")
                 return render_template("index.html")
         else:
-            # TODO: Test this
             flash("Must be logged in to change password.")
             return redirect(url_for("login"))
 

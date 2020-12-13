@@ -4,3 +4,4 @@ passfile
 keyfile
 passfile.bak
 failed_logins
+*.odt

@@ -4,6 +4,7 @@ examples
 *.ods
 *.ods#
 *.ods*
+*.odt
 *.pdf
 *.png
 *.zip

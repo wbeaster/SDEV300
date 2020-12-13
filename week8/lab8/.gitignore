@@ -2,3 +2,5 @@
 /__pycache__
 passfile
 keyfile
+passfile.bak
+failed_logins

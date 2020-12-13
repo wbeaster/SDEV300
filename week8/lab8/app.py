@@ -121,7 +121,7 @@ def record_failed_login(username):
     """
     Function writes failed logins to a file
     """
-    
+
     # so we do not risk writing to a non-existent file
     if not exists(FAILED_LOGINS):
         open(FAILED_LOGINS, "w").close()

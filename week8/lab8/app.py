@@ -117,6 +117,20 @@ def is_valid_login(username, password):
                 pass
     return False
 
+def change_password_tests(new_password1, new_password2):
+    """
+    Function runs some routine password tests
+    """
+    error = None
+    if not new_password1 == new_password2:
+        error = "New passwords do no match"
+    elif new_password1 in common_passwords:
+        error = "New password is frequently used. Please use another password."
+    elif not is_complex(new_password1):
+        error = "New password not complex enough"
+
+    return error
+
 def record_failed_login(username):
     """
     Function writes failed logins to a file
@@ -223,13 +237,9 @@ def change_password():
             new_password1 = request.form["new_password1"]
             new_password2 = request.form["new_password2"]
 
-            if not new_password1 == new_password2:
-                error = "New passwords do no match"
-            elif new_password1 in common_passwords:
-                error = "New password is frequently used. Please use another password."
-            elif not is_complex(new_password1):
-                error = "New password not complex enough"
-            elif not is_valid_login(username, old_password):
+            error = change_password_tests(new_password1, new_password2)
+
+            if not is_valid_login(username, old_password):
                 error = "Incorrect old password"
 
             if error:
